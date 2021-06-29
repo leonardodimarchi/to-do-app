@@ -1,18 +1,26 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
+import { Task } from './models/task';
+import { TaskService } from './services/task.service';
 import { TasksController } from './tasks.controller';
 
 describe('TasksController', () => {
   let controller: TasksController;
+  let service: TaskService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const testModule = await Test.createTestingModule({
       controllers: [TasksController],
-    }).compile();
+      providers: [TaskService],
+    }).compile()
 
-    controller = module.get<TasksController>(TasksController);
+    service = testModule.get<TaskService>(TaskService);
+    controller = testModule.get<TasksController>(TasksController);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('Should return a array of tasks', async () => {
+    const taskList: Task[] = [{ id: 0, completed: false, description: '' }]
+    jest.spyOn(service, 'getAll').mockImplementation(() => taskList);
+
+    expect(await controller.getAll()).toBe(taskList)
   });
 });
