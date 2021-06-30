@@ -4,16 +4,17 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  require('dotenv').config();
 
   const config = new DocumentBuilder()
-    .setTitle('To-do-app')
-    .setDescription('Api do To-do-app')
-    .setVersion('1.0')
+    .setTitle(process.env.SWAGGER_NAME)
+    .setDescription(process.env.SWAGGER_DESC)
+    .setVersion(process.env.SWAGGER_VERSION)
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger', app, document);
+  SwaggerModule.setup(process.env.SWAGGER_PATH, app, document);
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 
 bootstrap();

@@ -1,67 +1,55 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { Task } from '../models/task';
+import { TaskProxy } from '../models/task.proxy';
 
 @Injectable()
 export class TaskService {
-  tasks: Task[] = [
-    { id: 1, description: 'Task 1', completed: false },
-    { id: 2, description: 'Task 2', completed: false },
-    { id: 3, description: 'Task 3', completed: true },
-    { id: 4, description: 'Task 4', completed: false },
-  ];
 
   /**
    * Retorna todas as tasks
    */
-  public getAll(): Task[] {
-    return this.tasks;
+  public getAll(): TaskProxy[] {
+    return [this.getMockedTask()]
   }
 
   /**
    * Retorna uma task a partir da identificação
    */
-  public getById(id: number): Task {
-    const selectedTask = this.tasks.find((task) => task.id === id );
-
-    if (!selectedTask)
-      throw new ForbiddenException(`A task com o id: ${id} procurado, não pode ser encontrada`)
-
-    return selectedTask;
+  public getById(id: number): TaskProxy {
+    return this.getMockedTask();
   }
 
   /**
    * Cria uma nova entidade de task
    * @param task As informações da task
    */
-  public create(task: Task): Task {
-    task.id = this.tasks.length > 0 ? this.tasks[this.tasks.length - 1].id + 1 : 1;
-    this.tasks.push(task);
-
-    return task;
+  public create(task: TaskProxy): TaskProxy {
+    return this.getMockedTask();
   }
 
   /**
    * Atualiza uma entidade de task
    * @param task As informações da task
    */
-  public update(task: Task): Task {
-    const oldTask = this.getById(+task.id);
-
-    if (!oldTask)
-      throw new ForbiddenException('A task procurada para atualização não pode ser encontrada')
-
-    oldTask.description = task.description;
-    oldTask.completed = task.completed;
-
-    return oldTask;
+  public update(task: TaskProxy): TaskProxy {
+    return this.getMockedTask();
   }
 
   /**
    * Deleta uma entidade de task a partir de sua identificação
    */
   public delete(id: number): void {
-    const taskIndex = this.tasks.findIndex((task) => task.id === id);
 
-    this.tasks.splice(taskIndex, 1);
+  }
+
+  public getMockedTask(): TaskProxy {
+    return {
+      id:0,
+      completed: false,
+      description: '',
+      createdAt: new Date(),
+      isActive: true,
+      title: '',
+      updatedAt: new Date()
+    }
   }
 }

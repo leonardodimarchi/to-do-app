@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { TaskService } from './services/task.service';
-import { Task } from './models/task';
+import { TaskProxy } from './models/task.proxy';
 
 @ApiTags('tasks')
 @Controller('tasks')
@@ -12,26 +12,26 @@ export class TasksController {
 
   @Get()
   @ApiOperation({ summary: 'Get all tasks' })
-  @ApiOkResponse({ type: Task })
-  public async getAll(): Promise<Task[]> {
+  @ApiOkResponse({ type: TaskProxy })
+  public async getAll(): Promise<TaskProxy[]> {
     return  this.taskService.getAll();
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: Task })
-  public async getById(@Param('id') id: string): Promise<Task> {
+  @ApiOkResponse({ type: TaskProxy })
+  public async getById(@Param('id') id: string): Promise<TaskProxy> {
     return this.taskService.getById(+id);
   }
 
   @Post()
-  @ApiOkResponse({ type: Task })
-  public async create(@Body() task: Task): Promise<Task> {
+  @ApiOkResponse({ type: TaskProxy })
+  public async create(@Body() task: TaskProxy): Promise<TaskProxy> {
     return this.taskService.create(task);
   }
 
   @Put(':id')
-  @ApiOkResponse({ type: Task })
-  public async update(@Param('id') id: string, @Body() task: Task): Promise<Task> {
+  @ApiOkResponse({ type: TaskProxy })
+  public async update(@Param('id') id: string, @Body() task: TaskProxy): Promise<TaskProxy> {
     task.id = +id;
 
     return this.taskService.update(task);
