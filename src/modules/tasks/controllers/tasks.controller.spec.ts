@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
-import { TaskProxy } from './models/task.proxy';
-import { TaskService } from './services/task.service';
+import { TaskProxy } from '../models/task.proxy';
+import { TaskService } from '../services/task.service';
 import { TasksController } from './tasks.controller';
 
 describe('TasksController', () => {

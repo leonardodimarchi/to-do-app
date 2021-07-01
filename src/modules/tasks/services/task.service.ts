@@ -1,55 +1,112 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CrudRequest, GetManyDefaultResponse } from '@nestjsx/crud';
+import { Repository } from 'typeorm';
+import { BaseCrudService } from '../../../common/base-crud.service';
+import { isValid } from '../../../utils/functions';
+import { TaskEntity } from '../entities/task.entity';
+import { CreateTaskPayload } from '../models/create-task.payload';
 import { TaskProxy } from '../models/task.proxy';
+import { UpdateTaskPayload } from '../models/update-task.payload';
 
 @Injectable()
-export class TaskService {
+export class TaskService extends BaseCrudService<TaskEntity> {
+
+  constructor(
+    @InjectRepository(TaskEntity)
+    public repository: Repository<TaskEntity>,
+  ) {
+    super(repository);
+  }
 
   /**
    * Retorna todas as tasks
    */
-  public getAll(): TaskProxy[] {
-    return [this.getMockedTask()]
+  public async listMany(crudRequest: CrudRequest): Promise<GetManyDefaultResponse<TaskEntity> | TaskEntity[]> {
+    return await this.getMany(crudRequest);
   }
 
   /**
    * Retorna uma task a partir da identificação
    */
-  public getById(id: number): TaskProxy {
-    return this.getMockedTask();
+  public async get(id: number, crudRequest?: CrudRequest): Promise<TaskEntity> {
+    let taskEntity: TaskEntity;
+
+    if (crudRequest) {
+      crudRequest.parsed.search = { id };
+      taskEntity = await super.getOne(crudRequest);
+    } else {
+      taskEntity = await TaskEntity.findById<TaskEntity>(id);
+    }
+
+    if (!taskEntity)
+      throw new NotFoundException(`A entidade de Task procurada pela identificação ${ id } não foi encontrada`);
+
+    return taskEntity;
   }
 
   /**
    * Cria uma nova entidade de task
    * @param task As informações da task
    */
-  public create(task: TaskProxy): TaskProxy {
-    return this.getMockedTask();
+  public async create(payload: CreateTaskPayload): Promise<TaskEntity> {
+    const taskEntity = this.getEntityFromPayload(payload);
+
+    if (!taskEntity.title)
+      throw new BadRequestException(`Não foi enviada um titulo para a tarefa`);
+
+    taskEntity.completed = false;
+    return await taskEntity.save();
   }
 
   /**
    * Atualiza uma entidade de task
    * @param task As informações da task
    */
-  public update(task: TaskProxy): TaskProxy {
-    return this.getMockedTask();
+  public async update(id: number, payload: UpdateTaskPayload): Promise<TaskEntity> {
+    const oldTask = await TaskEntity.findById<TaskEntity>(id, false);
+
+    const updatedTask = new TaskEntity({
+      ...oldTask,
+      ...this.getEntityFromPayload(payload, id),
+    });
+
+    updatedTask.completed = payload.completed;
+    updatedTask.isActive = payload.isActive;
+
+    return await updatedTask.save();
   }
 
   /**
    * Deleta uma entidade de task a partir de sua identificação
    */
-  public delete(id: number): void {
+  public async delete(id: number): Promise<TaskEntity> {
+    const taskEntity = await TaskEntity.findById<TaskEntity>(id, false);
 
+    if (!taskEntity)
+      throw new NotFoundException(`A entidade de Task procurada pela identificação ${ id } não foi encontrada`);
+
+    taskEntity.isActive = false;
+
+    return await taskEntity.save();
   }
 
-  public getMockedTask(): TaskProxy {
-    return {
-      id:0,
-      completed: false,
-      description: '',
-      createdAt: new Date(),
-      isActive: true,
-      title: '',
-      updatedAt: new Date()
-    }
+  //#region Private Methods
+
+  /**
+   * Método que retorna a entidade a partir de um payload
+   *
+   * @param payload As informações do payload
+   * @param id A identificação do usuário
+   */
+  private getEntityFromPayload(payload: CreateTaskPayload | UpdateTaskPayload, id?: number): TaskEntity {
+    return new TaskEntity({
+      ...isValid(id) && { id },
+      ...isValid(payload.title) && { title: payload.title },
+      ...isValid(payload.description) && { description: payload.description },
+    });
   }
+
+  //#endregion
+
 }
