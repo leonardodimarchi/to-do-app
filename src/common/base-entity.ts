@@ -2,6 +2,7 @@
 
 import { NotFoundException } from '@nestjs/common';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { TypeOrmValueTypes } from '../models/enums/typeorm-value-types';
 import { BaseEntity as BaseTypeormEntity, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 //#endregion
@@ -40,7 +41,6 @@ export class BaseEntity extends BaseTypeormEntity {
   isActive: boolean;
 
   //#region Public Static Methods
-  private static TypeOrmValueTypes: any;
 
   /**
    * Método que verifica se uma entidade existe
@@ -67,7 +67,7 @@ export class BaseEntity extends BaseTypeormEntity {
     const entity = await this.findOne<TEntity>({
       where: {
         id: entityId,
-        ...validateIsActive && { isActive: this.TypeOrmValueTypes.TRUE },
+        ...validateIsActive && { isActive: TypeOrmValueTypes.TRUE },
       },
       relations,
     });
