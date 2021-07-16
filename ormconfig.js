@@ -17,8 +17,11 @@ const rule = {
 };
 
 const envFieldName = process.env.NODE_ENV === 'test' ? '.env.test' : '.env';
-const processEnvObject = process.env.NODE_ENV === 'test' ? { } : process.env;
-const env = envalid.cleanEnv(processEnvObject, rule, { dotEnvPath: envFieldName, strict: true });
+const processEnvObject = process.env.NODE_ENV === 'test' ? {} : process.env;
+const env = envalid.cleanEnv(processEnvObject, rule, {
+  dotEnvPath: envFieldName,
+  strict: true,
+});
 
 const config = {
   name: 'default',
@@ -80,7 +83,9 @@ if (config.type === 'mysql') {
     type: 'sqlite',
   });
 } else {
-  throw new Error('Não há um outro tipo de banco de dados suportado, por favor, altere para MySQL o valor de DB_TYPE.');
+  throw new Error(
+    'Não há um outro tipo de banco de dados suportado, por favor, altere para MySQL o valor de DB_TYPE.',
+  );
 }
 
 module.exports = config;

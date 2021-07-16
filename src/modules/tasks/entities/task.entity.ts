@@ -11,7 +11,6 @@ import { TaskProxy } from '../models/task.proxy';
  */
 @Entity('tasks')
 export class TaskEntity extends BaseEntity {
-
   constructor(partial: Partial<TaskEntity>) {
     super();
 
@@ -37,5 +36,4 @@ export class TaskEntity extends BaseEntity {
   }
 
   //#endregion
-
 }
