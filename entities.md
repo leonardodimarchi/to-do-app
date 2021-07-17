@@ -1,6 +1,4 @@
 ```typescript
-classDiagram
-
 class User {
     id: number;
     nickname: string; // 64
@@ -19,8 +17,18 @@ class Task {
 }
 
 class UserGroup {
-    id: number;
-    users: User[]; // One to many
-    tasks: Task[]; // One to many
+    userId: number;
+    groupId: number;
+    
+    group: Group; // One to one
+    user: User; // One to one
+}
+
+class Group {
+  id: number;
+  accessCode: string;
+  maxUsers: number;
+  
+  users: User[]; // One to many
 }
 ```

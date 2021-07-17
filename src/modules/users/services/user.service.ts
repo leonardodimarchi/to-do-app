@@ -10,7 +10,7 @@ import { UserProxy } from '../models/user.proxy';
 import { UpdateUserPayload } from '../models/update-user.payload';
 
 @Injectable()
-export class TaskService extends BaseCrudService<UserEntity> {
+export class UserService extends BaseCrudService<UserEntity> {
 
   constructor(
     @InjectRepository(UserEntity)

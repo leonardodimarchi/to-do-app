@@ -27,7 +27,7 @@ import { GetManyDefaultResponseTaskProxy, TaskProxy } from '../models/task.proxy
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiTags('tasks')
 @Controller('tasks')
-export class TasksController extends BaseEntityCrudController<TaskEntity, TaskService> {
+export class TaskController extends BaseEntityCrudController<TaskEntity, TaskService> {
   constructor(
     public service: TaskService,
   ) {

@@ -1,3 +1,12 @@
+import { filterXSS } from "xss";
+
+/**
+ * Sanitiza o email, protegendo contra XSS
+ */
+export function getSanitizedEmail(email: string): string {
+  return filterXSS(email.trim().toLowerCase())
+}
+
 /**
  * Método que verifica se o valor é nulo ou indefinido
  *
