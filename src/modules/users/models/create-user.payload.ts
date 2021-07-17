@@ -1,7 +1,7 @@
 //#region Imports
 
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDefined, IsOptional, IsString, MaxLength } from 'class-validator';
+import { IsDefined, IsEmail, IsOptional, IsString, MaxLength } from 'class-validator';
 import { DefaultValidationMessages } from '../../../models/enums/default-validation-messages';
 
 //#endregion
@@ -12,21 +12,44 @@ import { DefaultValidationMessages } from '../../../models/enums/default-validat
 export class CreateUserPayload {
 
   /**
-   * O titulo da tarefa
+   * Email do usuario
    */
   @ApiProperty()
-  @IsDefined({ message: 'É necessário informar o titulo da tarefa' })
   @IsString({ message: DefaultValidationMessages.IsString })
-  @MaxLength(64, { message: 'O titulo não pode ter mais de 64 caracteres.' })
-  public title: string;
+  @IsEmail({}, { message: DefaultValidationMessages.IsEmail })
+  @MaxLength(255, { message: 'O email não pode ter mais que 255 caracteres.' })
+  email: string;
 
   /**
-   * A descrição da tarefa
+   * Senha do usuario
    */
-  @ApiPropertyOptional()
-  @IsOptional()
+  @ApiProperty()
   @IsString({ message: DefaultValidationMessages.IsString })
-  @MaxLength(255, { message: 'A descrição não pode ter mais que 255 caracteres.' })
-  public description: string;
+  @MaxLength(255, { message: 'A senha não pode ter mais que 255 caracteres.' })
+  password: string;
+
+  /**
+   * Apelido do usuario
+   */
+  @ApiProperty()
+  @IsString({ message: DefaultValidationMessages.IsString })
+  @MaxLength(63, { message: 'O apelido não pode ter mais que 63 caracteres.' })
+  nickname: string;
+
+  /**
+   * Primeiro nome do usuario
+   */
+  @ApiProperty()
+  @IsString({ message: DefaultValidationMessages.IsString })
+  @MaxLength(255, { message: 'O nome não pode ter mais que 255 caracteres.' })
+  firstName: string;
+
+  /**
+   * Sobrenome do usuario
+   */
+  @ApiProperty()
+  @IsString({ message: DefaultValidationMessages.IsString })
+  @MaxLength(255, { message: 'O sobrenome não pode ter mais que 255 caracteres.' })
+  surName: string;
 
 }

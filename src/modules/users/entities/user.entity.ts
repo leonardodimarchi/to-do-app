@@ -22,7 +22,7 @@ export class UserEntity extends BaseEntity {
   email: string;
 
   @Column({ nullable: false, length: 256 })
-  public password: string;
+  password: string;
 
   @Column({ nullable: false, length: 64 })
   nickname: string;
@@ -69,7 +69,7 @@ export class UserEntity extends BaseEntity {
    * Diz se já existe um usuario a partir do email passado como parametro
    * @param userEmail O email para busca
    */
-  public async alreadyExistsUserWithTheEmail(userEmail: string): Promise<boolean> {
+  public static async alreadyExistsUserWithTheEmail(userEmail: string): Promise<boolean> {
     userEmail = getSanitizedEmail(userEmail);
 
     return await UserEntity.createQueryBuilder('user')

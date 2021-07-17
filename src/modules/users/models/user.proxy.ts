@@ -17,20 +17,41 @@ export class UserProxy extends BaseCrudProxy {
     super(task);
   }
 
-  @Column({ nullable: false, length: 64 })
+  /**
+   * Email do usuario
+   */
+  @ApiProperty()
+  email: string;
+
+  /**
+   * Senha do usuario
+   */
+  @ApiProperty()
+  password: string;
+
+  /**
+   * Apelido do usuario
+   */
+  @ApiProperty()
   nickname: string;
 
-  @Column({ nullable: true, length: 256 })
+  /**
+   * Primeiro nome do usuario
+   */
+  @ApiProperty()
   firstName: string;
 
-  @Column({ nullable: false, length: 256 })
+  /**
+   * Sobrenome do usuario
+   */
+  @ApiProperty()
   surName: string;
 }
 
 /**
  * A classe que representa o retorno dos proxies quando é chamado a função GetMany
  */
-export class GetManyDefaultResponseTaskProxy extends GetManyDefaultResponseProxy {
+export class GetManyDefaultResponseUserProxy extends GetManyDefaultResponseProxy {
 
   /**
    * A lista de entidades que essa busca retornou

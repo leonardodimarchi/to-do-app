@@ -1,7 +1,7 @@
 //#region Imports
 
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsBoolean, IsDefined, IsOptional, IsString, MaxLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsString, MaxLength } from 'class-validator';
 import { BaseCrudUpdatePayload } from '../../../common/base-crud-update.payload';
 import { DefaultValidationMessages } from '../../../models/enums/default-validation-messages';
 
@@ -13,28 +13,43 @@ import { DefaultValidationMessages } from '../../../models/enums/default-validat
 export class UpdateUserPayload extends BaseCrudUpdatePayload {
 
   /**
-   * O titulo da tarefa
+   * Email do usuario
    */
-  @ApiPropertyOptional()
-  @IsOptional()
+  @ApiProperty()
   @IsString({ message: DefaultValidationMessages.IsString })
-  @MaxLength(64, { message: 'O titulo não pode ter mais de 64 caracteres.' })
-  public title?: string;
+  @IsEmail({}, { message: DefaultValidationMessages.IsEmail })
+  @MaxLength(255, { message: 'O email não pode ter mais que 255 caracteres.' })
+  email: string;
 
   /**
-   * A descrição da tarefa
+   * Senha do usuario
    */
-  @ApiPropertyOptional()
-  @IsOptional()
+  @ApiProperty()
   @IsString({ message: DefaultValidationMessages.IsString })
-  @MaxLength(255, { message: 'A descrição não pode ter mais que 255 caracteres.' })
-  public description?: string;
+  @MaxLength(255, { message: 'A senha não pode ter mais que 255 caracteres.' })
+  password: string;
 
   /**
-   * Diz se a tarefa esta completa
+   * Apelido do usuario
    */
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsBoolean({ message: DefaultValidationMessages.IsBoolean })
-  public completed?: boolean;
+  @ApiProperty()
+  @IsString({ message: DefaultValidationMessages.IsString })
+  @MaxLength(63, { message: 'O apelido não pode ter mais que 63 caracteres.' })
+  nickname: string;
+
+  /**
+   * Primeiro nome do usuario
+   */
+  @ApiProperty()
+  @IsString({ message: DefaultValidationMessages.IsString })
+  @MaxLength(255, { message: 'O nome não pode ter mais que 255 caracteres.' })
+  firstName: string;
+
+  /**
+   * Sobrenome do usuario
+   */
+  @ApiProperty()
+  @IsString({ message: DefaultValidationMessages.IsString })
+  @MaxLength(255, { message: 'O sobrenome não pode ter mais que 255 caracteres.' })
+  surName: string;
 }
