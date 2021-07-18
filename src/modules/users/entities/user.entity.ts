@@ -43,12 +43,11 @@ export class UserEntity extends BaseEntity {
   }
 
   /**
-   * Método que busca um usuario a aprtir do email
+   * Método que busca um usuario ativo a a partir do email
    *
    * @param userEmail O e-mail para busca
-   * @param isActive Verifica se o usuario esta ativo ou não
    */
-  public static async getByEmail(userEmail: string, isActive: boolean = true): Promise<UserEntity | undefined> {
+  public static async getActiveUserByEmail(userEmail: string): Promise<UserEntity | undefined> {
     userEmail = getSanitizedEmail(userEmail);
 
     const userSearched = await UserEntity.createQueryBuilder('user')
@@ -58,8 +57,29 @@ export class UserEntity extends BaseEntity {
     if (!userSearched)
       throw new NotFoundException('O usuário com esse email não foi encontrado.');
 
-   if (userSearched.isActive !== isActive)
-     throw new NotFoundException('O usuário com esse email não foi desativado.');
+   if (userSearched.isActive === false)
+     throw new NotFoundException('O usuário com esse email foi desativado.');
+
+    return userSearched;
+  }
+
+  /**
+   * Método que busca um usuario inativo a a partir do email
+   *
+   * @param userEmail O e-mail para busca
+   */
+  public static async getNonActiveUserByEmail(userEmail: string): Promise<UserEntity | undefined> {
+    userEmail = getSanitizedEmail(userEmail);
+
+    const userSearched = await UserEntity.createQueryBuilder('user')
+      .where('TRIM(LOWER(user.email)) = :userEmail', { userEmail })
+      .getOne();
+
+    if (!userSearched)
+      throw new NotFoundException('O usuário com esse email não foi encontrado.');
+
+    if (userSearched.isActive === true)
+      throw new NotFoundException('O usuário com esse email é um usuário ativo.');
 
     return userSearched;
   }
