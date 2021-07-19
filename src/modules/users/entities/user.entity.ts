@@ -1,16 +1,10 @@
-//#region Imports
-
 import { NotFoundException } from '@nestjs/common';
 import { Column, Entity } from 'typeorm';
 import { BaseEntity } from '../../../common/base-entity';
+import { UsersPermissions } from '../../../models/enums/users-permissions';
 import { getSanitizedEmail } from '../../../utils/functions';
 import { UserProxy } from '../models/user.proxy';
 
-//#endregion
-
-/**
- * A entidade das tarefas
- */
 @Entity('users')
 export class UserEntity extends BaseEntity {
   constructor(partial: Partial<UserEntity>) {
@@ -34,20 +28,15 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: false, length: 256 })
   surName: string;
 
+  @Column( { nullable: false, length: 256, default: UsersPermissions.USER })
+  permission: string;
+
   //#region Public Methods
 
-  /**
-   * Método que retorna um proxy da entidade
-   */
   public toProxy(): UserProxy {
     return new UserProxy(this);
   }
 
-  /**
-   * Método que busca um usuario ativo a a partir do email
-   *
-   * @param userEmail O e-mail para busca
-   */
   public static async getActiveUserByEmail(userEmail: string): Promise<UserEntity | undefined> {
     userEmail = getSanitizedEmail(userEmail);
 
@@ -62,11 +51,6 @@ export class UserEntity extends BaseEntity {
     return userSearched;
   }
 
-  /**
-   * Método que busca um usuario inativo a a partir do email
-   *
-   * @param userEmail O e-mail para busca
-   */
   public static async getNonActiveUserByEmail(userEmail: string): Promise<UserEntity | undefined> {
     userEmail = getSanitizedEmail(userEmail);
 
@@ -81,10 +65,6 @@ export class UserEntity extends BaseEntity {
     return userSearched;
   }
 
-  /**
-   * Diz se já existe um usuario a partir do email passado como parametro
-   * @param userEmail O email para busca
-   */
   public static async alreadyExistsUserWithTheEmail(userEmail: string): Promise<boolean> {
     userEmail = getSanitizedEmail(userEmail);
 
@@ -99,10 +79,6 @@ export class UserEntity extends BaseEntity {
 
   //#region Private Methods
 
-  /**
-   * Retorna um usuario a partir do email
-   * @param userEmail O email do usuario
-   */
   private static async getUserByEmail(userEmail: string): Promise<UserEntity | undefined> {
     return await UserEntity.createQueryBuilder('user')
       .where('TRIM(LOWER(user.email)) = :userEmail', { userEmail })
