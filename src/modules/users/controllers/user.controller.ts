@@ -1,7 +1,7 @@
 //#region Imports
 
 import { Body, ClassSerializerInterceptor, Controller, Param, UseInterceptors } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudRequest, Override, ParsedRequest } from '@nestjsx/crud';
 import { BaseEntityCrudController } from '../../../common/base-entity-crud.controller';
 import { TaskProxy } from '../../tasks/models/task.proxy';
@@ -13,6 +13,7 @@ import { UserService } from '../services/user.service';
 
 //#endregion
 
+@ApiBearerAuth()
 @Crud({
   model: {
     type: UserEntity,

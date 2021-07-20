@@ -10,6 +10,7 @@ async function bootstrap() {
     .setTitle(process.env.SWAGGER_NAME)
     .setDescription(process.env.SWAGGER_DESC)
     .setVersion(process.env.SWAGGER_VERSION)
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(process.env.SWAGGER_PATH, app, document);
