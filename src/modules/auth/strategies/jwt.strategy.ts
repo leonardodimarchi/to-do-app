@@ -18,10 +18,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(jwtPayload: JwtPayload): Promise<void> {
+  async validate(jwtPayload: JwtPayload): Promise<any> {
     const user = await UserEntity.findById<UserEntity>(jwtPayload.id);
 
-    if (user === null)
+    if (!user)
       throw new UnauthorizedException('Usuário desativado ou removido.');
+
+    return user;
   }
 }

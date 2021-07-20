@@ -1,18 +1,19 @@
 //#region Imports
 
-import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Param, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Crud, CrudRequest, GetManyDefaultResponse, Override, ParsedRequest } from '@nestjsx/crud';
+import { Body, ClassSerializerInterceptor, Controller, Delete, Param, UseGuards, UseInterceptors } from '@nestjs/common';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Crud, CrudRequest, Override, ParsedRequest } from '@nestjsx/crud';
 import { BaseEntityCrudController } from '../../../common/base-entity-crud.controller';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { TaskEntity } from '../entities/task.entity';
 import { CreateTaskPayload } from '../models/create-task.payload';
+import { GetManyDefaultResponseTaskProxy, TaskProxy } from '../models/task.proxy';
 import { UpdateTaskPayload } from '../models/update-task.payload';
 import { TaskService } from '../services/task.service';
-import { GetManyDefaultResponseTaskProxy, TaskProxy } from '../models/task.proxy';
 
 //#endregion
 
+@ApiBearerAuth()
 @Crud({
   model: {
     type: TaskEntity,
