@@ -1,4 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { UserEntity } from 'src/modules/users/entities/user.entity';
 import { LoginPayload } from '../models/login-payload';
 
@@ -7,7 +8,17 @@ import * as bcryptjs from 'bcryptjs';
 @Injectable()
 export class AuthService {
 
-    constructor() { }
+    constructor(
+      private readonly jwtService: JwtService,
+    ) { }
+
+    public async login(user: Partial<UserEntity>): Promise<{ access_token: string }> {
+        const { id, permission, createdAt, updatedAt, isActive } = user;
+
+        return {
+            access_token: this.jwtService.sign(user),
+        }
+    }
 
     public async validateUser({ email, password }: LoginPayload): Promise<Partial<UserEntity>> {
         const { password: encryptedPassword, ...searchedUser } = await UserEntity.getActiveUserByEmail(email);
