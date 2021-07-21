@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CrudRequest, GetManyDefaultResponse } from '@nestjsx/crud';
 import { Repository } from 'typeorm';
 import { BaseCrudService } from '../../../common/base-crud.service';
+import { UsersPermissions } from '../../../models/enums/users-permissions';
 import { isValid } from '../../../utils/functions';
 import { UserEntity } from '../entities/user.entity';
 import { CreateUserPayload } from '../models/create-user.payload';
@@ -63,6 +64,7 @@ export class UserService extends BaseCrudService<UserEntity> {
       throw new BadRequestException(`Não foi enviado uma senha para o usuário`);
 
     userEntity.password = await this.bcryptPassword(payload.password);
+    userEntity.permissions = UsersPermissions.USER;
     return await userEntity.save();
   }
 

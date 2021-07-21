@@ -28,8 +28,8 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: false, length: 256 })
   surName: string;
 
-  @Column( { nullable: false, length: 256, default: UsersPermissions.USER })
-  permission: string;
+  @Column( { nullable: false, length: 256 })
+  permissions: string;
 
   //#region Public Methods
 

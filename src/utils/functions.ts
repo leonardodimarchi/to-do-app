@@ -1,4 +1,14 @@
 import { filterXSS } from "xss";
+import { UsersPermissions } from '../models/enums/users-permissions';
+import { UserEntity } from '../modules/users/entities/user.entity';
+
+export function hasAdminPermission(user: UserEntity): boolean {
+  return user.permissions.split('|').some(permission => permission === UsersPermissions.ADMIN);
+}
+
+export function hasUserPermission(user: UserEntity): boolean {
+  return user.permissions.split('|').some(permission => permission === UsersPermissions.USER);
+}
 
 /**
  * Sanitiza o email, protegendo contra XSS

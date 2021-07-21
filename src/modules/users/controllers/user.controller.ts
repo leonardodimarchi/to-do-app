@@ -4,7 +4,10 @@ import { Body, ClassSerializerInterceptor, Controller, Param, UseGuards, UseInte
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudRequest, Override, ParsedRequest } from '@nestjsx/crud';
 import { BaseEntityCrudController } from '../../../common/base-entity-crud.controller';
+import { UsersPermissions } from '../../../models/enums/users-permissions';
+import { hasPermissions } from '../../auth/decorators/has-permissions.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { PermissionsGuard } from '../../auth/guards/permissions.guard';
 import { TaskProxy } from '../../tasks/models/task.proxy';
 import { UserEntity } from '../entities/user.entity';
 import { CreateUserPayload } from '../models/create-user.payload';
@@ -42,7 +45,8 @@ export class UserController extends BaseEntityCrudController<UserEntity, UserSer
     super(service);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @hasPermissions(UsersPermissions.ADMIN)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Override()
   @ApiOperation({ summary: 'Get all users' })
   @ApiOkResponse({ type: GetManyDefaultResponseUserProxy })
@@ -50,7 +54,8 @@ export class UserController extends BaseEntityCrudController<UserEntity, UserSer
     return await this.service.listMany(crudRequest);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @hasPermissions(UsersPermissions.ADMIN)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Override()
   @ApiOperation({ summary: 'Get a user by id' })
   @ApiOkResponse({ type: TaskProxy })
@@ -58,7 +63,6 @@ export class UserController extends BaseEntityCrudController<UserEntity, UserSer
     return await this.service.get(+id).then(response => response.toProxy());
   }
 
-  @UseGuards(JwtAuthGuard)
   @Override()
   @ApiOperation({ summary: 'Create a user' })
   @ApiOkResponse({ type: TaskProxy })
@@ -66,7 +70,8 @@ export class UserController extends BaseEntityCrudController<UserEntity, UserSer
     return await this.service.create(payload).then(response => response.toProxy());
   }
 
-  @UseGuards(JwtAuthGuard)
+  @hasPermissions(UsersPermissions.USER, UsersPermissions.ADMIN)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Override()
   @ApiOperation({ summary: 'Update a user' })
   @ApiOkResponse({ type: TaskProxy })

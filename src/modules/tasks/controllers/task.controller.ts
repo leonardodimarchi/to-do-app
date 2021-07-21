@@ -1,10 +1,13 @@
 //#region Imports
 
-import { Body, ClassSerializerInterceptor, Controller, Delete, Param, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Delete, Param, Request, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudRequest, Override, ParsedRequest } from '@nestjsx/crud';
 import { BaseEntityCrudController } from '../../../common/base-entity-crud.controller';
+import { UsersPermissions } from '../../../models/enums/users-permissions';
+import { hasPermissions } from '../../auth/decorators/has-permissions.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { PermissionsGuard } from '../../auth/guards/permissions.guard';
 import { TaskEntity } from '../entities/task.entity';
 import { CreateTaskPayload } from '../models/create-task.payload';
 import { GetManyDefaultResponseTaskProxy, TaskProxy } from '../models/task.proxy';
@@ -36,15 +39,17 @@ export class TaskController extends BaseEntityCrudController<TaskEntity, TaskSer
     super(service);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @hasPermissions(UsersPermissions.USER, UsersPermissions.ADMIN)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Override()
   @ApiOperation({ summary: 'Get all tasks' })
   @ApiOkResponse({ type: GetManyDefaultResponseTaskProxy })
-  public async getMany(@ParsedRequest() crudRequest: CrudRequest): Promise<GetManyDefaultResponseTaskProxy | TaskProxy[]> {
-    return await this.service.listMany(crudRequest);
+  public async getMany(@Request() req: any,@ParsedRequest() crudRequest: CrudRequest): Promise<GetManyDefaultResponseTaskProxy | TaskProxy[]> {
+    return await this.service.listMany(crudRequest, req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @hasPermissions(UsersPermissions.ADMIN)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Override()
   @ApiOperation({ summary: 'Get a task by id' })
   @ApiOkResponse({ type: TaskProxy })
@@ -52,7 +57,8 @@ export class TaskController extends BaseEntityCrudController<TaskEntity, TaskSer
     return await this.service.get(+id).then(response => response.toProxy());
   }
 
-  @UseGuards(JwtAuthGuard)
+  @hasPermissions(UsersPermissions.USER, UsersPermissions.ADMIN)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Override()
   @ApiOperation({ summary: 'Create a task' })
   @ApiOkResponse({ type: TaskProxy })
@@ -60,7 +66,8 @@ export class TaskController extends BaseEntityCrudController<TaskEntity, TaskSer
     return await this.service.create(payload).then(response => response.toProxy());
   }
 
-  @UseGuards(JwtAuthGuard)
+  @hasPermissions(UsersPermissions.USER, UsersPermissions.ADMIN)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Override()
   @ApiOperation({ summary: 'Update a task' })
   @ApiOkResponse({ type: TaskProxy })
@@ -68,7 +75,8 @@ export class TaskController extends BaseEntityCrudController<TaskEntity, TaskSer
     return await this.service.update(+id, payload).then(response => response.toProxy());
   }
 
-  @UseGuards(JwtAuthGuard)
+  @hasPermissions(UsersPermissions.USER, UsersPermissions.ADMIN)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a task' })
   public async deleteOne(@Param('id') id: string): Promise<TaskProxy> {

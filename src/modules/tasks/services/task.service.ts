@@ -1,9 +1,10 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CrudRequest, GetManyDefaultResponse } from '@nestjsx/crud';
 import { Repository } from 'typeorm';
 import { BaseCrudService } from '../../../common/base-crud.service';
-import { isValid } from '../../../utils/functions';
+import { hasAdminPermission, isValid } from '../../../utils/functions';
+import { UserEntity } from '../../users/entities/user.entity';
 import { TaskEntity } from '../entities/task.entity';
 import { CreateTaskPayload } from '../models/create-task.payload';
 import { TaskProxy } from '../models/task.proxy';
@@ -22,8 +23,11 @@ export class TaskService extends BaseCrudService<TaskEntity> {
   /**
    * Retorna todas as tasks
    */
-  public async listMany(crudRequest: CrudRequest): Promise<GetManyDefaultResponse<TaskEntity> | TaskEntity[]> {
-    return await this.getMany(crudRequest);
+  public async listMany(crudRequest: CrudRequest, userThatRequested: UserEntity): Promise<GetManyDefaultResponse<TaskEntity> | TaskEntity[]> {
+    if (hasAdminPermission(userThatRequested))
+      return await this.getMany(crudRequest);
+
+    throw new ForbiddenException('Você não possui permissão para listar todas as tarefas');
   }
 
   /**
