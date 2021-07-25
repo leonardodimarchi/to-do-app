@@ -1,4 +1,27 @@
 ```typescript
+class Task {
+  id: number;
+  title: string; // 64
+  description: string; // 64
+  completed: boolean;
+}
+
+class UserTask {
+  userId: number;
+  taskId: number;
+
+  user: User; // One to many
+  task: Task; // One to one
+}
+
+class GroupTask {
+  groupId: number;
+  taskId: number;
+
+  task: Task;
+  group: Group;
+}
+
 class User {
     id: number;
     nickname: string; // 64
@@ -6,29 +29,23 @@ class User {
     surName: string; // 128
 
     userGroups: UserGroup[]; // Many to many
-    Tasks: Task[]; // One to many
-}
-
-class Task {
-    id: number;
-    title: string; // 64
-    description: string; // 64
-    completed: boolean;
+    Tasks: UserTask[]; // One to many
 }
 
 class UserGroup {
-    userId: number;
-    groupId: number;
-    
-    group: Group; // One to one
-    user: User; // One to one
+  userId: number;
+  groupId: number;
+
+  group: Group; // One to one
+  user: User; // One to one
 }
 
 class Group {
   id: number;
-  accessCode: string;
+  accessCode: string; //64
   maxUsers: number;
   
-  users: User[]; // One to many
+  users: UserGroup[]; // One to many
+  tasks: GroupTask[]; // One to many
 }
 ```
