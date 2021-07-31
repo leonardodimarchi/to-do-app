@@ -10,7 +10,7 @@ class UserTask {
   userId: number;
   taskId: number;
 
-  user: User; // One to many
+  user: User; // One to one
   task: Task; // One to one
 }
 
@@ -28,7 +28,7 @@ class User {
     firstName: string; // 128
     surName: string; // 128
 
-    userGroups: UserGroup[]; // Many to many
+    userGroups: UserGroup[]; // One to many
     Tasks: UserTask[]; // One to many
 }
 
