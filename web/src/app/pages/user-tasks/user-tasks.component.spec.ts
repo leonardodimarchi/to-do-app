@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TaskComponentModule } from '../../components/task-component/task-component.module';
 
 import { UserTasksComponent } from './user-tasks.component';
 
@@ -8,7 +9,10 @@ describe('UserTasksComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserTasksComponent ]
+      declarations: [ UserTasksComponent ],
+      imports: [
+        TaskComponentModule
+      ]
     })
     .compileComponents();
   });

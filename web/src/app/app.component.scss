@@ -1,0 +1,12 @@
+.app {
+  display: flex;
+  padding: 2rem 25% 0 25%;
+
+  &--navbar {
+    padding-top: 5rem;
+  }
+
+  &--main {
+    margin-left: 4rem;
+  }
+}

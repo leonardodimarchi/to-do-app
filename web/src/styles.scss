@@ -1,0 +1,16 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  --todo-gray: #58565F;
+  --todo-gray-dark: #1D1C21;
+  --todo-green: #7CD790;
+  --todo-purple: #433B49;
+}
+
+html,body {
+  background-color: var(--todo-gray-dark);
+  color: white;
+}

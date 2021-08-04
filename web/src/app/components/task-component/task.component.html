@@ -1,0 +1,14 @@
+<div class="task">
+  <div class="task--container">
+    <div class="task--container--header">
+      <h1 data-test="title">{{ task?.title }}</h1>
+      <span data-test="date">{{ 'a' }}</span>
+    </div>
+
+    <p data-test="description">{{ task?.description }}</p>
+  </div>
+
+  <div class="task--checkbox">
+    <img data-test="check-image" [src]="task?.completed ? 'assets/imgs/checkmark-outline.svg' : 'assets/imgs/close.svg'" alt="">
+  </div>
+</div>
