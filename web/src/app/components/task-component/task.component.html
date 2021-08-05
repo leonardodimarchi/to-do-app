@@ -8,7 +8,9 @@
     <p data-test="description">{{ task?.description }}</p>
   </div>
 
-  <div class="task--checkbox">
-    <img data-test="check-image" [src]="task?.completed ? 'assets/imgs/checkmark-outline.svg' : 'assets/imgs/close.svg'" alt="">
+  <div class="task--checkbox" data-test="check-box" (click)="task.completed = true">
+    <ng-container *ngIf="task.completed">
+      <img data-test="check-image" src="assets/imgs/checkmark-outline.svg" alt="">
+    </ng-container>
   </div>
 </div>

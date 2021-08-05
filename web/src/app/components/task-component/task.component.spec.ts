@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TaskComponent } from './task.component';
 
-describe('TaskComponentComponent', () => {
+describe('__Task__', () => {
   let component: TaskComponent;
   let fixture: ComponentFixture<TaskComponent>;
 
@@ -22,18 +22,18 @@ describe('TaskComponentComponent', () => {
     fixture.detectChanges();
   });
 
-  describe('component initializing', () => {
+  describe('__component initializing__', () => {
     it('should create', () => {
       expect(component).toBeTruthy();
     });
 
     it('should show the task title if a task is passed', () => {
-      const title = fixture.nativeElement.querySelector('[data-test="title"]');
+      const title = query<HTMLTitleElement>('[data-test="title"]');
       expect(title.textContent).toBe(component.task.title);
     });
 
     it('should be shown when the task was created', () => {
-      const date = fixture.nativeElement.querySelector('[data-test="date"]');
+      const date = query<HTMLSpanElement>('[data-test="date"]');
       expect(date).toBeTruthy();
     });
 
@@ -42,7 +42,7 @@ describe('TaskComponentComponent', () => {
         component.task.description = 'description';
         fixture.detectChanges();
 
-        const description = fixture.nativeElement.querySelector('[data-test="description"]');
+        const description = query<HTMLParagraphElement>('[data-test="description"]');
         expect(description.textContent).toBe(component.task.description);
       });
 
@@ -50,24 +50,38 @@ describe('TaskComponentComponent', () => {
         component.task.description = '';
         fixture.detectChanges();
 
-        const description = fixture.nativeElement.querySelector('[data-test="description"]');
+        const description = query<HTMLParagraphElement>('[data-test="description"]');
         expect(description.textContent).toBe('');
       });
     });
 
-    describe('task checking', () => {
-      it('should be showing a X when the task is not completed', () => {
-        const checkedImage = fixture.nativeElement.querySelector('[data-test="check-image"]');
-        expect(checkedImage.src).toContain('/assets/imgs/close.svg');
+    describe('__task checking__', () => {
+      it('should not show the check image when the task is not completed', () => {
+        const checkBox = query<HTMLDivElement>('[data-test="check-box"]');
+
+        component.task.completed = false;
+        fixture.detectChanges();
+
+        expect(checkBox.children.length === 1).toBeFalse();
       });
 
       it('should be showing a check-mark when the task is completed', () => {
         component.task.completed = true;
         fixture.detectChanges();
 
-        const checkedImage = fixture.nativeElement.querySelector('[data-test="check-image"]');
+        const checkedImage = query<HTMLImageElement>('[data-test="check-image"]');
         expect(checkedImage.src).toContain('/assets/imgs/checkmark-outline.svg');
       });
+
+      it('should make the test complete by clicking the check-box', () => {
+        const checkBox = query<HTMLDivElement>('[data-test="check-box"]');
+        checkBox.click();
+        expect(component.task.completed).toBeTrue();
+      })
     });
   });
+
+  function query<T>(selector: string): T {
+    return fixture.nativeElement.querySelector(selector);
+  }
 });
