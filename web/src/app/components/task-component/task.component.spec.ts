@@ -81,10 +81,9 @@ describe('__Task__', () => {
 
       it('should make the test incomplete by clicking the completed check-box', () => {
         const checkBox = query<HTMLDivElement>('[data-test="check-box"]');
-        checkBox.click();
+        component.task.completed = true;
         fixture.detectChanges();
         checkBox.click();
-        fixture.detectChanges();
         expect(component.task.completed).toBeFalse();
       });
     });

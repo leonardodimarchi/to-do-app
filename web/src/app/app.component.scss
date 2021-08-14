@@ -3,6 +3,9 @@
   padding: 2rem 25% 0 25%;
 
   &--navbar {
+    display: flex;
+    flex-direction: column;
+
     padding-top: 5rem;
   }
 
