@@ -77,7 +77,16 @@ describe('__Task__', () => {
         const checkBox = query<HTMLDivElement>('[data-test="check-box"]');
         checkBox.click();
         expect(component.task.completed).toBeTrue();
-      })
+      });
+
+      it('should make the test incomplete by clicking the completed check-box', () => {
+        const checkBox = query<HTMLDivElement>('[data-test="check-box"]');
+        checkBox.click();
+        fixture.detectChanges();
+        checkBox.click();
+        fixture.detectChanges();
+        expect(component.task.completed).toBeFalse();
+      });
     });
   });
 

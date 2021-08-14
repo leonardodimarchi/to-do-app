@@ -14,9 +14,10 @@ export class UserTasksComponent implements OnInit {
   }
 
   task: TaskProxy = {
-    title: 'aa',
+    title: 'Task title',
     completed: false,
-    createdAt: new Date()
+    createdAt: new Date(),
+    description: 'Task description'
   }
 
 }
