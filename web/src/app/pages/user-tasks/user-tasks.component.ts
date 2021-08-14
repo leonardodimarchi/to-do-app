@@ -13,7 +13,7 @@ export class UserTasksComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  task: TaskProxy = {
+  public task: TaskProxy = {
     title: 'Task title',
     completed: false,
     createdAt: new Date(),
