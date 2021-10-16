@@ -1,51 +1,37 @@
-```typescript
-class Task {
-  id: number;
-  title: string; // 64
-  description: string; // 64
-  completed: boolean;
-}
-
-class UserTask {
-  userId: number;
-  taskId: number;
-
-  user: User; // One to one
-  task: Task; // One to one
-}
-
-class GroupTask {
-  groupId: number;
-  taskId: number;
-
-  task: Task;
-  group: Group;
-}
+```mermaid
+classDiagram
 
 class User {
     id: number;
     nickname: string; // 64
-    firstName: string; // 128
-    surName: string; // 128
+    password: string; // 256
+    firstName: string; // 256
+    permissions: string // 256
 
-    userGroups: UserGroup[]; // One to many
-    Tasks: UserTask[]; // One to many
+    taskGroups?: TaskGroup[]
 }
 
-class UserGroup {
-  userId: number;
-  groupId: number;
+User "1" --o "n" TaskGroup : Has
 
-  group: Group; // One to one
-  user: User; // One to one
-}
-
-class Group {
+class TaskGroup {
   id: number;
-  accessCode: string; //64
-  maxUsers: number;
-  
-  users: UserGroup[]; // One to many
-  tasks: GroupTask[]; // One to many
+  creatorId: number;
+  title: string;
+  description: string;
+
+  creator?: User;
+  tasks?: Task[];
 }
+
+TaskGroup "1" --o "n" Task : Has
+
+class Task {
+  id: number;
+  groupId: number;
+  content: string;
+  isDone: boolean;
+
+  taskGroup?: TaskGroup;
+}
+
 ```

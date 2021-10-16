@@ -1,7 +1,6 @@
 //#region Imports
 
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Column } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 import { BaseCrudProxy } from '../../../common/base-crud.proxy';
 import { GetManyDefaultResponseProxy } from '../../../common/get-many-default-response.proxy';
 import { UserEntity } from '../entities/user.entity';
@@ -18,10 +17,10 @@ export class UserProxy extends BaseCrudProxy {
   }
 
   /**
-   * Email do usuario
+   * Apelido do usuario
    */
   @ApiProperty()
-  email: string;
+  nickname: string;
 
   /**
    * Senha do usuario
@@ -30,22 +29,16 @@ export class UserProxy extends BaseCrudProxy {
   password: string;
 
   /**
-   * Apelido do usuario
-   */
-  @ApiProperty()
-  nickname: string;
-
-  /**
    * Primeiro nome do usuario
    */
   @ApiProperty()
   firstName: string;
 
   /**
-   * Sobrenome do usuario
+   * As permissões do usuario
    */
   @ApiProperty()
-  surName: string;
+  permissions: string;
 }
 
 /**

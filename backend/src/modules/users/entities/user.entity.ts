@@ -1,7 +1,6 @@
 import { NotFoundException } from '@nestjs/common';
 import { Column, Entity } from 'typeorm';
 import { BaseEntity } from '../../../common/base-entity';
-import { UsersPermissions } from '../../../models/enums/users-permissions';
 import { getSanitizedEmail } from '../../../utils/functions';
 import { UserProxy } from '../models/user.proxy';
 
@@ -13,20 +12,14 @@ export class UserEntity extends BaseEntity {
     Object.assign(this, partial);
   }
 
-  @Column({ nullable: false, length: 256, unique: true })
-  email: string;
+  @Column({ nullable: false, length: 64 })
+  nickname: string;
 
   @Column({ nullable: false, length: 256 })
   password: string;
 
-  @Column({ nullable: false, length: 64 })
-  nickname: string;
-
   @Column({ nullable: true, length: 256 })
   firstName: string;
-
-  @Column({ nullable: false, length: 256 })
-  surName: string;
 
   @Column( { nullable: false, length: 256 })
   permissions: string;
@@ -81,7 +74,7 @@ export class UserEntity extends BaseEntity {
 
   private static async getUserByEmail(userEmail: string): Promise<UserEntity | undefined> {
     return await UserEntity.createQueryBuilder('user')
-      .where('TRIM(LOWER(user.email)) = :userEmail', { userEmail })
+      .where('user.email = :userEmail', { userEmail })
       .getOne();
   }
 
