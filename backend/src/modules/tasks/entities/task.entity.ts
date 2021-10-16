@@ -17,7 +17,7 @@ export class TaskEntity extends BaseEntity {
     Object.assign(this, partial);
   }
 
-  @Column({ nullable: false, length: 64 })
+  @Column({ nullable: false })
   groupId: number;
 
   @Column({ nullable: false, length: 256 })

@@ -82,7 +82,8 @@ export class TaskGroupService extends BaseCrudService<TaskGroupEntity> {
   private getEntityFromPayload(payload: CreateTaskGroupPayload, id?: number): TaskGroupEntity {
     return new TaskGroupEntity({
       ...isValid(id) && { id },
-      ...isValid(payload.taskId) && { taskId: payload.taskId },
+      ...isValid(payload.title) && { title: payload.title },
+      ...isValid(payload.description) && { description: payload.description },
     });
   }
 

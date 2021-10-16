@@ -9,13 +9,13 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     private authService: AuthService,
   ) {
     super({
-      usernameField: 'email',
+      usernameField: 'nickname',
       passwordField: 'password',
     });
   }
 
-  public async validate(email: string, password: string): Promise<any> {
-    const user = await this.authService.validateUser({ email, password });
+  public async validate(nickname: string, password: string): Promise<any> {
+    const user = await this.authService.validateUser({ nickname, password });
 
     if (!user)
       throw new UnauthorizedException('Você não possui permissão para acessar essa rota.');

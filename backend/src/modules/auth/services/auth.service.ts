@@ -20,13 +20,13 @@ export class AuthService {
         }
     }
 
-    public async validateUser({ email, password }: LoginPayload): Promise<Partial<UserEntity>> {
-        const { password: encryptedPassword, ...searchedUser } = await UserEntity.getActiveUserByEmail(email);
+    public async validateUser({ nickname, password }: LoginPayload): Promise<Partial<UserEntity>> {
+        const { password: encryptedPassword, ...searchedUser } = await UserEntity.getActiveUserByNickname(nickname);
 
         const isPasswordMatching = await bcryptjs.compare(password, encryptedPassword);
 
         if (!isPasswordMatching)
-            throw new UnauthorizedException('A combinação de e-mail e senha enviada está incorreta.');
+            throw new UnauthorizedException('A combinação de nickname e senha enviada está incorreta.');
 
         return searchedUser;
     }

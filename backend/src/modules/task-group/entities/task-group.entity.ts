@@ -4,7 +4,7 @@ import { TaskEntity } from '../../tasks/entities/task.entity';
 import { UserEntity } from '../../users/entities/user.entity';
 import { TaskGroupProxy } from '../models/task-group.proxy';
 
-@Entity('user-tasks')
+@Entity('task-group')
 export class TaskGroupEntity extends BaseEntity {
   constructor(partial: Partial<TaskGroupEntity>) {
     super();
