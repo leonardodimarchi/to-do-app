@@ -20,7 +20,7 @@ export class UpdateTaskPayload extends BaseCrudUpdatePayload {
   @ApiPropertyOptional()
   @IsOptional()
   @IsString({ message: DefaultValidationMessages.IsString })
-  @MaxLength(256, { message: 'A descrição não pode ter mais que 256 caracteres.' })
+  @MaxLength(256, { message: 'O conteudo não pode ter mais que 256 caracteres.' })
   public content?: string;
 
   @ApiPropertyOptional()

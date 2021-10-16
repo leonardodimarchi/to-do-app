@@ -7,7 +7,6 @@ import { hasAdminPermission, isValid } from '../../../utils/functions';
 import { UserEntity } from '../../users/entities/user.entity';
 import { TaskEntity } from '../entities/task.entity';
 import { CreateTaskPayload } from '../models/create-task.payload';
-import { TaskProxy } from '../models/task.proxy';
 import { UpdateTaskPayload } from '../models/update-task.payload';
 
 @Injectable()

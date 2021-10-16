@@ -7,16 +7,16 @@ import { TaskEntity } from '../../tasks/entities/task.entity';
 import { TaskProxy } from '../../tasks/models/task.proxy';
 import { UserEntity } from '../../users/entities/user.entity';
 import { UserProxy } from '../../users/models/user.proxy';
-import { UserTaskEntity } from '../entities/user-task.entity';
+import { TaskGroupEntity } from '../entities/task-group.entity';
 
 //#endregion
 
 /**
  * As informações que a API enviará para o usuario.
  */
-export class UserTaskProxy extends BaseCrudProxy {
+export class TaskGroupProxy extends BaseCrudProxy {
 
-  constructor(task: Partial<UserTaskEntity> | UserTaskEntity) {
+  constructor(task: Partial<TaskGroupEntity> | TaskGroupEntity) {
     super(task);
   }
 
@@ -36,12 +36,12 @@ export class UserTaskProxy extends BaseCrudProxy {
 /**
  * A classe que representa o retorno dos proxies quando é chamado a função GetMany
  */
-export class GetManyDefaultResponseUserTaskProxy extends GetManyDefaultResponseProxy {
+export class GetManyDefaultResponseTaskGroupProxy extends GetManyDefaultResponseProxy {
 
   /**
    * A lista de entidades que essa busca retornou
    */
-  @ApiProperty({ type: UserTaskProxy, isArray: true })
-  data: UserTaskProxy[];
+  @ApiProperty({ type: TaskGroupProxy, isArray: true })
+  data: TaskGroupProxy[];
 
 }

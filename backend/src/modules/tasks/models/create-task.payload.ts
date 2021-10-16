@@ -19,7 +19,7 @@ export class CreateTaskPayload {
   @ApiProperty()
   @IsDefined({ message: 'É necessário informar o conteudo tarefa' })
   @IsString({ message: DefaultValidationMessages.IsString })
-  @MaxLength(256, { message: 'A descrição não pode ter mais que 256 caracteres.' })
+  @MaxLength(256, { message: 'O conteudo não pode ter mais que 256 caracteres.' })
   public content: string;
 
   @ApiPropertyOptional()

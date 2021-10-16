@@ -17,7 +17,7 @@ class TaskGroup {
   id: number;
   creatorId: number;
   title: string;
-  description: string;
+  description?: string;
 
   creator?: User;
   tasks?: Task[];
