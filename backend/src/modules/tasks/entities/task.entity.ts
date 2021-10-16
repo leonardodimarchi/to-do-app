@@ -18,13 +18,13 @@ export class TaskEntity extends BaseEntity {
   }
 
   @Column({ nullable: false, length: 64 })
-  title: string;
+  groupId: number;
 
-  @Column({ nullable: true, length: 256 })
-  description: string;
+  @Column({ nullable: false, length: 256 })
+  content: string;
 
   @Column({ nullable: false, default: false })
-  completed: boolean;
+  isDone: boolean;
 
   //#region Public Methods
 

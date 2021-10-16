@@ -42,5 +42,5 @@ export class UpdateUserPayload extends BaseCrudUpdatePayload {
   @ApiProperty()
   @IsString({ message: DefaultValidationMessages.IsString })
   @MaxLength(256, { message: 'O sobrenome não pode ter mais que 256 caracteres.' })
-  permisions: string;
+  permissions: string;
 }

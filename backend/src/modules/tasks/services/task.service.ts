@@ -56,10 +56,13 @@ export class TaskService extends BaseCrudService<TaskEntity> {
   public async create(payload: CreateTaskPayload): Promise<TaskEntity> {
     const taskEntity = this.getEntityFromPayload(payload);
 
-    if (!taskEntity.title)
-      throw new BadRequestException(`Não foi enviada um titulo para a tarefa`);
+    if (!taskEntity.groupId)
+      throw new BadRequestException(`Não foi enviada um grupo para a tarefa`);
 
-    taskEntity.completed = false;
+    if (!taskEntity.content)
+      throw new BadRequestException(`Não foi enviada um conteudo para a tarefa`);
+
+    taskEntity.isDone = false;
     return await taskEntity.save();
   }
 
@@ -75,7 +78,7 @@ export class TaskService extends BaseCrudService<TaskEntity> {
       ...this.getEntityFromPayload(payload, id),
     });
 
-    updatedTask.completed = payload.completed;
+    updatedTask.isDone = payload.isDone;
     updatedTask.isActive = payload.isActive;
 
     return await updatedTask.save();
@@ -106,8 +109,9 @@ export class TaskService extends BaseCrudService<TaskEntity> {
   private getEntityFromPayload(payload: CreateTaskPayload | UpdateTaskPayload, id?: number): TaskEntity {
     return new TaskEntity({
       ...isValid(id) && { id },
-      ...isValid(payload.title) && { title: payload.title },
-      ...isValid(payload.description) && { description: payload.description },
+      ...isValid(payload.content) && { content: payload.content },
+      ...isValid(payload.groupId) && { groupId: payload.groupId },
+      ...isValid(payload.isDone) && { isDone: payload.isDone },
     });
   }
 

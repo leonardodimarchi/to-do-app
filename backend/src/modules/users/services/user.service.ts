@@ -57,8 +57,8 @@ export class UserService extends BaseCrudService<UserEntity> {
   public async create(payload: CreateUserPayload): Promise<UserEntity> {
     const userEntity = this.getEntityFromPayload(payload);
 
-    if (await UserEntity.alreadyExistsUserWithTheEmail(userEntity.email))
-      throw new BadRequestException('Já existe um usuário com este email');
+    if (await UserEntity.alreadyExistsUserWithNickname(userEntity.nickname))
+      throw new BadRequestException('Já existe um usuário com este nickname');
 
     if (!payload.password)
       throw new BadRequestException(`Não foi enviado uma senha para o usuário`);
@@ -70,6 +70,7 @@ export class UserService extends BaseCrudService<UserEntity> {
 
   /**
    * Atualiza um usuário
+   * @param id A identificação da entidade
    * @param payload As informações do usuario
    */
   public async update(id: number, payload: UpdateUserPayload): Promise<UserEntity> {
@@ -108,10 +109,10 @@ export class UserService extends BaseCrudService<UserEntity> {
   private getEntityFromPayload(payload: CreateUserPayload | UpdateUserPayload, id?: number): UserEntity {
     return new UserEntity({
       ...isValid(id) && { id },
-      ...isValid(payload.email) && { email: payload.email },
-      ...isValid(payload.firstName) && { firstName: payload.firstName },
-      ...isValid(payload.surName) && { surName: payload.surName },
       ...isValid(payload.nickname) && { nickname: payload.nickname },
+      ...isValid(payload.firstName) && { firstName: payload.firstName },
+      ...isValid(payload.password) && { password: payload.password },
+      ...isValid(payload.permissions) && { permissions: payload.permissions },
     });
   }
 

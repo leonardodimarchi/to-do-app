@@ -14,16 +14,17 @@ export class TaskProxy extends BaseCrudProxy {
 
   constructor(task: Partial<TaskEntity> | TaskEntity) {
     super(task);
+    Object.assign(this, task);
   }
 
   @ApiProperty()
-  title: string;
-
-  @ApiPropertyOptional()
-  description: string;
+  groupId: number;
 
   @ApiProperty()
-  completed: boolean;
+  content: string;
+
+  @ApiProperty()
+  isDone: boolean;
 }
 
 /**

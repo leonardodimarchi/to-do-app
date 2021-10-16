@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { Column, Entity } from 'typeorm';
 import { BaseEntity } from '../../../common/base-entity';
-import { getSanitizedEmail } from '../../../utils/functions';
+import { getSanitizedNickname } from '../../../utils/functions';
 import { UserProxy } from '../models/user.proxy';
 
 @Entity('users')
@@ -30,39 +30,39 @@ export class UserEntity extends BaseEntity {
     return new UserProxy(this);
   }
 
-  public static async getActiveUserByEmail(userEmail: string): Promise<UserEntity | undefined> {
-    userEmail = getSanitizedEmail(userEmail);
+  public static async getActiveUserByNickname(nickname: string): Promise<UserEntity | undefined> {
+    nickname = getSanitizedNickname(nickname);
 
-    const userSearched = await this.getUserByEmail(userEmail);
+    const userSearched = await this.getUserByNickname(nickname);
 
     if (!userSearched)
-      throw new NotFoundException('O usuário com esse email não foi encontrado.');
+      throw new NotFoundException('O usuário com esse nickname não foi encontrado.');
 
     if (userSearched.isActive === false)
-      throw new NotFoundException('O usuário com esse email foi desativado.');
+      throw new NotFoundException('O usuário com esse nickname foi desativado.');
 
     return userSearched;
   }
 
-  public static async getNonActiveUserByEmail(userEmail: string): Promise<UserEntity | undefined> {
-    userEmail = getSanitizedEmail(userEmail);
+  public static async getNonActiveUserByNickname(nickname: string): Promise<UserEntity | undefined> {
+    nickname = getSanitizedNickname(nickname);
 
-    const userSearched = await this.getUserByEmail(userEmail);
+    const userSearched = await this.getUserByNickname(nickname);
 
     if (!userSearched)
-      throw new NotFoundException('O usuário com esse email não foi encontrado.');
+      throw new NotFoundException('O usuário com esse nickname não foi encontrado.');
 
     if (userSearched.isActive === true)
-      throw new NotFoundException('O usuário com esse email é um usuário ativo.');
+      throw new NotFoundException('O usuário com esse nickname é um usuário ativo.');
 
     return userSearched;
   }
 
-  public static async alreadyExistsUserWithTheEmail(userEmail: string): Promise<boolean> {
-    userEmail = getSanitizedEmail(userEmail);
+  public static async alreadyExistsUserWithNickname(userNickname: string): Promise<boolean> {
+    userNickname = getSanitizedNickname(userNickname);
 
     const userSearched = await UserEntity.createQueryBuilder('user')
-      .where('TRIM(LOWER(user.email)) = :userEmail', { userEmail })
+      .where('user.nickname = :userNickname', { userNickname })
       .getOne();
 
     return !!userSearched;
@@ -72,9 +72,9 @@ export class UserEntity extends BaseEntity {
 
   //#region Private Methods
 
-  private static async getUserByEmail(userEmail: string): Promise<UserEntity | undefined> {
+  private static async getUserByNickname(userNickname: string): Promise<UserEntity | undefined> {
     return await UserEntity.createQueryBuilder('user')
-      .where('user.email = :userEmail', { userEmail })
+      .where('user.nickname = :userNickname', { userNickname })
       .getOne();
   }
 

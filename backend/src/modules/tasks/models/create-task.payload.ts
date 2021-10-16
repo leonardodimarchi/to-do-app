@@ -1,7 +1,7 @@
 //#region Imports
 
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDefined, IsOptional, IsString, MaxLength } from 'class-validator';
+import { IsBoolean, IsDefined, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator';
 import { DefaultValidationMessages } from '../../../models/enums/default-validation-messages';
 
 //#endregion
@@ -11,22 +11,19 @@ import { DefaultValidationMessages } from '../../../models/enums/default-validat
  */
 export class CreateTaskPayload {
 
-  /**
-   * O titulo da tarefa
-   */
   @ApiProperty()
-  @IsDefined({ message: 'É necessário informar o titulo da tarefa' })
-  @IsString({ message: DefaultValidationMessages.IsString })
-  @MaxLength(64, { message: 'O titulo não pode ter mais de 64 caracteres.' })
-  public title: string;
+  @IsDefined({ message: 'É necessário informar o ID do grupo da tarefa' })
+  @IsNumber()
+  public groupId: number;
 
-  /**
-   * A descrição da tarefa
-   */
+  @ApiProperty()
+  @IsDefined({ message: 'É necessário informar o conteudo tarefa' })
+  @IsString({ message: DefaultValidationMessages.IsString })
+  @MaxLength(256, { message: 'A descrição não pode ter mais que 256 caracteres.' })
+  public content: string;
+
   @ApiPropertyOptional()
   @IsOptional()
-  @IsString({ message: DefaultValidationMessages.IsString })
-  @MaxLength(255, { message: 'A descrição não pode ter mais que 255 caracteres.' })
-  public description: string;
-
+  @IsBoolean({ message: DefaultValidationMessages.IsBoolean })
+  public isDone?: boolean;
 }

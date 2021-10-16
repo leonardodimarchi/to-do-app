@@ -13,8 +13,8 @@ export function hasUserPermission(user: UserEntity): boolean {
 /**
  * Sanitiza o email, protegendo contra XSS
  */
-export function getSanitizedEmail(email: string): string {
-  return filterXSS(email.trim().toLowerCase())
+export function getSanitizedNickname(nickname: string): string {
+  return filterXSS(nickname.trim().toLowerCase())
 }
 
 /**
