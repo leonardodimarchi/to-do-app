@@ -1,12 +1,12 @@
 //#region Imports
 
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CrudRequest, GetManyDefaultResponse } from '@nestjsx/crud';
 import { Repository } from 'typeorm';
 import { BaseCrudService } from '../../../common/base-crud.service';
 import { UsersPermissions } from '../../../models/enums/users-permissions';
-import { isValid } from '../../../utils/functions';
+import { hasAdminPermission, isValid } from '../../../utils/functions';
 import { UserEntity } from '../entities/user.entity';
 import { CreateUserPayload } from '../models/create-user.payload';
 import { UpdateUserPayload } from '../models/update-user.payload';
@@ -27,7 +27,10 @@ export class UserService extends BaseCrudService<UserEntity> {
   /**
    * Retorna todos os usuarios
    */
-  public async listMany(crudRequest: CrudRequest): Promise<GetManyDefaultResponse<UserEntity> | UserEntity[]> {
+  public async listMany(requestUser: UserEntity, crudRequest: CrudRequest): Promise<GetManyDefaultResponse<UserEntity> | UserEntity[]> {
+    if (!hasAdminPermission(requestUser))
+      throw new ForbiddenException('Você não possui permissão para listar os usuários')
+
     return await this.getMany(crudRequest);
   }
 

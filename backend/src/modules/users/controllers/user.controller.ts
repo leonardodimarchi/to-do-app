@@ -1,6 +1,6 @@
 //#region Imports
 
-import { Body, ClassSerializerInterceptor, Controller, Param, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Param, Request, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudRequest, Override, ParsedRequest } from '@nestjsx/crud';
 import { BaseEntityCrudController } from '../../../common/base-entity-crud.controller';
@@ -50,8 +50,8 @@ export class UserController extends BaseEntityCrudController<UserEntity, UserSer
   @Override()
   @ApiOperation({ summary: 'Get all users' })
   @ApiOkResponse({ type: GetManyDefaultResponseUserProxy })
-  public async getMany(@ParsedRequest() crudRequest: CrudRequest): Promise<GetManyDefaultResponseUserProxy | UserProxy[]> {
-    return await this.service.listMany(crudRequest);
+  public async getMany(@Request() req: any, @ParsedRequest() crudRequest: CrudRequest): Promise<GetManyDefaultResponseUserProxy | UserProxy[]> {
+    return await this.service.listMany(req.user, crudRequest);
   }
 
   @hasPermissions(UsersPermissions.ADMIN)
