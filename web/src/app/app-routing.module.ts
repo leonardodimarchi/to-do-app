@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'user-tasks' },
-  { path: 'user-tasks', loadChildren: () => import ('./pages/user-tasks/user-tasks.module').then(m => m.UserTasksModule)},
-  { path: '**', redirectTo: 'user-tasks' }
+  { path: '', pathMatch: 'full', redirectTo: 'groups' },
+  { path: 'groups', loadChildren: () => import ('./pages/groups/groups.module').then(m => m.GroupsModule) },
+  { path: '**', redirectTo: 'groups' }
 ];
 
 @NgModule({
