@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { GroupsComponent } from './groups.component';
+import { RegisterComponent } from './register.component';
 
 const routes: Routes = [
-  { path: '', component: GroupsComponent}
+  { path: '', component: RegisterComponent },
 ]
 
 @NgModule({
@@ -14,4 +14,4 @@ const routes: Routes = [
     CommonModule
   ]
 })
-export class GroupsModule { }
+export class RegisterModule { }
