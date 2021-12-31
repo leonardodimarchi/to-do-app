@@ -25,7 +25,7 @@ heroku git:remote --remote heroku-backend -a <heroku-api-project-name>
 ```
 git subtree push --prefix backend heroku-backend master
 or
-git push heroku-backend  `git subtree split --prefix backend master`:master --force
+git push heroku-backend `git subtree split --prefix backend master`:master --force
 ```
 
 📖Things yet to do
