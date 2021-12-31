@@ -1,1 +1,38 @@
-<p>login works!</p>
+<div class="login">
+  <div class="login--container">
+    <h1>Login</h1>
+    <form>
+      <mat-form-field appearance="fill">
+        <mat-label>
+          Nickname
+        </mat-label>
+
+        <input
+          matInput
+          (keydown.enter)="passwordInput.focus()">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>
+          Password
+        </mat-label>
+
+        <input
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          (keydown.enter)="login()"
+          #passwordInput>
+
+        <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+          {{ hidePassword ? 'visibility_off' : 'visibility' }}
+        </mat-icon>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="button" (click)="login()">
+        Enter
+      </button>
+    </form>
+
+    <a routerLink="/register">Create an account</a>
+  </div>
+</div>

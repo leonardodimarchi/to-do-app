@@ -1,1 +1,74 @@
-<p>register works!</p>
+<div class="register">
+  <div class="register--container">
+    <h1>Register</h1>
+    <form [formGroup]="registerFormGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>
+          First name
+        </mat-label>
+
+        <mat-error *ngIf="registerFormGroup.controls.firstName.hasError('required')">
+          Please, enter a name
+        </mat-error>
+
+        <input
+          matInput
+          formControlName="firstName"
+          maxlength="256"
+          autocomplete="off"
+          (keydown.enter)="nicknameInput.focus()">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>
+          Nickname
+        </mat-label>
+
+        <mat-error *ngIf="registerFormGroup.controls.nickname.hasError('required')">
+          Please, enter a nickname
+        </mat-error>
+
+        <input
+          matInput
+          formControlName="nickname"
+          maxlength="64"
+          autocomplete="off"
+          (keydown.enter)="passwordInput.focus()"
+          #nicknameInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>
+          Password
+        </mat-label>
+
+        <mat-error *ngIf="registerFormGroup.controls.password.hasError('required')">
+          Please, enter a password
+        </mat-error>
+
+        <input
+          matInput
+          formControlName="password"
+          maxlength="256"
+          autocomplete="off"
+          [type]="hidePassword ? 'password' : 'text'"
+          (keydown.enter)="register()"
+          #passwordInput>
+
+        <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+          {{ hidePassword ? 'visibility_off' : 'visibility' }}
+        </mat-icon>
+      </mat-form-field>
+
+      <div class="button">
+        <button mat-raised-button color="primary" type="button" (click)="register()" [disabled]="isLoading">
+          Create
+        </button>
+
+        <mat-progress-spinner color="accent" mode="indeterminate" diameter="20" *ngIf="isLoading"></mat-progress-spinner>
+      </div>
+    </form>
+
+    <a routerLink="/login">Already have an account?</a>
+  </div>
+</div>

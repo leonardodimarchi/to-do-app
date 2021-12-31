@@ -1,0 +1,56 @@
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  &--container {
+    width: 20vw;
+    min-width: 15rem;
+
+    height: max-content;
+
+    margin-top: -5rem;
+    padding: 0.5rem;
+
+    text-align: center;
+
+    > h1 {
+      margin-bottom: 1.5rem;
+    }
+
+    > a {
+      display: block;
+
+      margin-top: 1.5rem;
+
+      font-size: 0.9rem;
+      color: unset;
+      text-decoration: none;
+
+      transition: .3s;
+
+      &:hover {
+        filter: brightness(0.6);
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+
+      mat-icon {
+        cursor: pointer;
+      }
+
+      button {
+        width: 50%;
+        min-width: 5rem;
+
+        margin: auto {
+          top: 1rem;
+        }
+      }
+    }
+  }
+}

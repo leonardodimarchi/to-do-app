@@ -3,10 +3,27 @@
   margin: 0;
 }
 
-:root {
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-}
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-html,body {
+  position: relative;
 
+  width: 50%;
+  min-width: 5rem;
+
+  margin: auto;
+
+  button {
+    width: 100%;
+  }
+
+  mat-progress-spinner {
+    position: absolute;
+    right: -2rem;
+  }
 }
