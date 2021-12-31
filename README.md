@@ -7,3 +7,4 @@
 📖Things yet to do
 - [ ] Frontend - Persist login
 - [ ] Frontend - Task groups and tasks (Pages)
+- [ ] Backend - Set nickname as unique
