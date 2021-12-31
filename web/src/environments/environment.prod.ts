@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://todo-group-app.herokuapp.com/user-tasks',
+  apiBaseUrl: 'https://todo-group-api.herokuapp.com',
   apiEndpoints: {
     user: '/users',
     auth: {
