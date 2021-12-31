@@ -32,3 +32,4 @@ git push heroku-backend `git subtree split --prefix backend master`:master --for
 - [ ] Frontend - Persist login
 - [ ] Frontend - Task groups and tasks (Pages)
 - [ ] Backend - Set nickname as unique
+- [ ] Backend - Solve ssl at heroku
