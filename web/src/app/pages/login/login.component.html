@@ -1,14 +1,21 @@
 <div class="login">
   <div class="login--container">
     <h1>Login</h1>
-    <form>
+    <form [formGroup]="loginFormGroup">
       <mat-form-field appearance="fill">
         <mat-label>
           Nickname
         </mat-label>
 
+        <mat-error *ngIf="loginFormGroup.controls.nickname.hasError('required')">
+          Please, enter a nickname
+        </mat-error>
+
         <input
           matInput
+          formControlName="nickname"
+          maxlength="64"
+          autocomplete="off"
           (keydown.enter)="passwordInput.focus()">
       </mat-form-field>
 
@@ -17,8 +24,15 @@
           Password
         </mat-label>
 
+        <mat-error *ngIf="loginFormGroup.controls.password.hasError('required')">
+          Please, enter a password
+        </mat-error>
+
         <input
           matInput
+          formControlName="password"
+          maxlength="256"
+          autocomplete="off"
           [type]="hidePassword ? 'password' : 'text'"
           (keydown.enter)="login()"
           #passwordInput>
@@ -28,9 +42,13 @@
         </mat-icon>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="button" (click)="login()">
-        Enter
-      </button>
+      <div class="button">
+        <button mat-raised-button color="primary" type="button" (click)="login()" [disabled]="isLoading">
+          Enter
+        </button>
+
+        <mat-progress-spinner color="accent" mode="indeterminate" diameter="20" *ngIf="isLoading"></mat-progress-spinner>
+      </div>
     </form>
 
     <a routerLink="/register">Create an account</a>

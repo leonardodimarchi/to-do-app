@@ -32,10 +32,10 @@ export class RegisterComponent {
     try {
       this.isLoading = true;
 
-      await this.userService.register(this.registerFormGroup.getRawValue());
+      await this.userService.registerAndLogin(this.registerFormGroup.getRawValue());
       await this.router.navigateByUrl('/task-groups');
     } catch (error) {
-      await this.snackBarService.open(error.message, 'Dismiss', { duration: 2000 });
+      this.snackBarService.open(error.message, 'Dismiss', { duration: 2000 });
     } finally {
       this.isLoading = false;
     }

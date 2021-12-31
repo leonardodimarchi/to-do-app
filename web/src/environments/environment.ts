@@ -7,6 +7,9 @@ export const environment = {
   apiBaseUrl: 'http://localhost:3000',
   apiEndpoints: {
     user: '/users',
+    auth: {
+      local: '/auth/local'
+    }
   }
 };
 
