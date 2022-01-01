@@ -75,11 +75,14 @@ if (config.type === 'mysql') {
     username: env.DB_USER,
     password: env.DB_PASSWORD,
     acquireTimeout: env.DB_TIMEOUT,
-    rejectUnauthorized: true,
     extra: {
-      ssl: { rejectUnauthorized: false },
+      ssl: {
+        rejectUnauthorized: false,
+      },
     },
-    ssl: { rejectUnauthorized: false },
+    ssl: {
+      rejectUnauthorized: false,
+    },
   });
 } else if (env.DB_TYPE === 'sqlite') {
   Object.assign(config, {
