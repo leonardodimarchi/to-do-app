@@ -4,6 +4,9 @@
 
 export const environment = {
   production: false,
+  keys: {
+    userToken: 'USER_TOKEN',
+  },
   apiBaseUrl: 'http://localhost:3000',
   apiEndpoints: {
     user: '/users',

@@ -33,7 +33,7 @@ export class LoginComponent {
       this.isLoading = true;
 
       await this.userService.login(this.loginFormGroup.getRawValue());
-      await this.router.navigateByUrl('/task-groups');
+      await this.router.navigateByUrl('/groups');
     } catch (error) {
       this.snackBarService.open(error.message, 'Dismiss', { duration: 2000 });
     } finally {

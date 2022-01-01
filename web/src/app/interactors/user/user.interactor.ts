@@ -17,7 +17,7 @@ export class UserInteractor {
     return this.httpClient.post<CreateUserPayload>(environment.apiBaseUrl + environment.apiEndpoints.user, payload);
   }
 
-  public login(payload: LoginPayload): Observable<void> {
-    return this.httpClient.post<void>(environment.apiBaseUrl + environment.apiEndpoints.auth.local, payload);
+  public login(payload: LoginPayload): Observable<any> {
+    return this.httpClient.post<any>(environment.apiBaseUrl + environment.apiEndpoints.auth.local, payload);
   }
 }
