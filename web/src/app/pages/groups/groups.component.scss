@@ -1,0 +1,36 @@
+main {
+  height: 100%;
+  padding-top: 4rem;
+
+  .groups {
+    width: 40vw;
+    height: 100%;
+
+    margin: auto;
+
+    &--add {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 4rem;
+
+      border-radius: 12px;
+      border: 4px solid var(--color-gray);
+
+      cursor: pointer;
+      transition: .4s;
+
+      font-size: 3rem;
+      color: var(--color-gray);
+
+      mat-icon {
+        transform: scale(1.5);
+      }
+
+      &:hover {
+        filter: brightness(1.2);
+      }
+    }
+  }
+}

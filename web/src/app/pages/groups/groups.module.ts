@@ -1,22 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TaskGroupsComponent } from './task-groups.component';
+import { GroupsComponent } from './groups.component';
+import {MatIconModule} from "@angular/material/icon";
 
 const routes: Routes = [
-  { path: '', component: TaskGroupsComponent },
+  { path: '', component: GroupsComponent },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
+    MatIconModule,
   ],
   declarations: [
-    TaskGroupsComponent,
+    GroupsComponent,
   ],
   exports: [
-    TaskGroupsComponent,
+    GroupsComponent,
   ],
 })
-export class TaskGroupsModule {}
+export class GroupsModule {}

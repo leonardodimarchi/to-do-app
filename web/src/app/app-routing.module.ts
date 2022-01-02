@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'login', loadChildren: () => import ('./pages/login/login.module').then(m => m.LoginModule), ...unLoggedRoute },
   { path: 'register', loadChildren: () => import ('./pages/register/register.module').then(m => m.RegisterModule), ...unLoggedRoute },
-  { path: 'groups', loadChildren: () => import ('./pages/task-groups/task-groups.module').then(m => m.TaskGroupsModule), ...loggedRoute },
+  { path: 'groups', loadChildren: () => import ('./pages/groups/groups.module').then(m => m.GroupsModule), ...loggedRoute },
   { path: '**', redirectTo: 'login' }
 ];
 

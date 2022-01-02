@@ -5,9 +5,12 @@ export const environment = {
   },
   apiBaseUrl: 'https://todo-group-api.herokuapp.com',
   apiEndpoints: {
-    user: '/users',
     auth: {
       local: '/auth/local'
-    }
+    },
+    user: '/users',
+    groups: {
+      getAll: '/task-group',
+    },
   }
 };

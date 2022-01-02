@@ -33,7 +33,7 @@ export class RegisterComponent {
       this.isLoading = true;
 
       await this.userService.registerAndLogin(this.registerFormGroup.getRawValue());
-      await this.router.navigateByUrl('/groups');
+      await this.router.navigateByUrl('/group');
     } catch (error) {
       this.snackBarService.open(error.message, 'Dismiss', { duration: 2000 });
     } finally {

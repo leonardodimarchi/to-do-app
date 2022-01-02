@@ -6,6 +6,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+:root {
+  --color-gray: #737373;
+}
+
 .button {
   display: flex;
   justify-content: center;
