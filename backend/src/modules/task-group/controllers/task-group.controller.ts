@@ -50,7 +50,7 @@ export class TaskGroupController extends BaseEntityCrudController<TaskGroupEntit
   @hasPermissions(UsersPermissions.ADMIN)
   @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Override()
-  @ApiOperation({ summary: 'Get all task-groups' })
+  @ApiOperation({ summary: 'Get all task-group' })
   @ApiOkResponse({ type: GetManyDefaultResponseTaskGroupProxy })
   public async getMany(@ParsedRequest() crudRequest: CrudRequest): Promise<GetManyDefaultResponseTaskGroupProxy | TaskGroupProxy[]> {
     return await this.service.listMany(crudRequest).then(response => {
