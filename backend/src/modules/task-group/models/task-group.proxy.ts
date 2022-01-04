@@ -16,6 +16,7 @@ export class TaskGroupProxy extends BaseCrudProxy {
 
   constructor(task: Partial<TaskGroupEntity> | TaskGroupEntity) {
     super(task);
+    Object.assign(this, task);
   }
 
   @ApiProperty()
