@@ -22,7 +22,12 @@ export class TaskGroupService extends BaseCrudService<TaskGroupEntity> {
     super(repository);
   }
 
-  public async listMany(crudRequest: CrudRequest): Promise<GetManyDefaultResponse<TaskGroupEntity> | TaskGroupEntity[]> {
+  public async listMany(crudRequest: CrudRequest, requestUser: UserEntity): Promise<GetManyDefaultResponse<TaskGroupEntity> | TaskGroupEntity[]> {
+    crudRequest.parsed.filter = [
+      { field: 'creatorId', operator: '$eq', value: requestUser.id },
+      ...crudRequest.parsed.filter,
+    ]
+
     return await this.getMany(crudRequest);
   }
 
