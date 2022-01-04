@@ -32,5 +32,16 @@ main {
         filter: brightness(1.2);
       }
     }
+
+    &--list {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      overflow-y: auto;
+
+      padding-top: 2rem;
+    }
   }
 }

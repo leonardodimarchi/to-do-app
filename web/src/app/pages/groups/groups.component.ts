@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { DialogCreateGroupComponent } from '../../components/dialog-create-group/dialog-create-group.component';
 import { CreateGroupPayload } from '../../models/payload/create-group.payload';
+import { GroupProxy } from '../../models/proxies/group.proxy';
 import { GroupService } from '../../services/group/group.service';
 
 @Component({
@@ -18,17 +19,32 @@ export class GroupsComponent implements OnInit, OnDestroy {
     private readonly snackBar: MatSnackBar,
   ) {}
 
+  public taskGroups: GroupProxy[] = [];
+
+  public isLoadingGroups: boolean = false;
+
   public isCreatingGroup: boolean = false;
 
   private createGroupDialogSubscription: Subscription;
 
   public async ngOnInit(): Promise<void> {
-    const groups = await this.groupService.getAll();
-    console.log(groups)
+    await this.loadGroups();
   }
 
   public ngOnDestroy(): void {
     this.createGroupDialogSubscription.unsubscribe();
+  }
+
+  public async loadGroups(): Promise<void> {
+    try {
+      this.isLoadingGroups = true;
+
+      this.taskGroups = await this.groupService.getAll();
+    } catch (error) {
+      await this.snackBar.open(error.message);
+    } finally {
+      this.isLoadingGroups = false;
+    }
   }
 
   public openCreateGroupDialog(): void {
@@ -45,11 +61,16 @@ export class GroupsComponent implements OnInit, OnDestroy {
         this.isCreatingGroup = true;
 
         await this.groupService.create(payload);
+        await this.loadGroups();
       } catch (error) {
         await this.snackBar.open(error.message);
       } finally {
         this.isCreatingGroup = false;
       }
     });
+  }
+
+  public trackGroupById(index: number, item: GroupProxy): number {
+    return item.id;
   }
 }
