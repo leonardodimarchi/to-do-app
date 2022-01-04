@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule, Routes } from '@angular/router';
+import { DialogCreateGroupModule } from '../../components/dialog-create-group/dialog-create-group.module';
 import { GroupsComponent } from './groups.component';
-import {MatIconModule} from "@angular/material/icon";
 
 const routes: Routes = [
   { path: '', component: GroupsComponent },
@@ -13,6 +16,9 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CommonModule,
     MatIconModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    DialogCreateGroupModule,
   ],
   declarations: [
     GroupsComponent,

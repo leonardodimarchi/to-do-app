@@ -1,7 +1,8 @@
 <main>
   <div class="groups">
-    <div class="groups--add">
-      <mat-icon>add</mat-icon>
+    <div class="groups--add" (click)="openCreateGroupDialog()" [class.disabled]="isCreatingGroup">
+      <mat-icon *ngIf="!isCreatingGroup">add</mat-icon>
+      <mat-progress-spinner *ngIf="isCreatingGroup" diameter="25" mode="indeterminate" color="accent"></mat-progress-spinner>
     </div>
 
     <div class="groups--item">

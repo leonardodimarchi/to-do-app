@@ -31,3 +31,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     right: -2rem;
   }
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}

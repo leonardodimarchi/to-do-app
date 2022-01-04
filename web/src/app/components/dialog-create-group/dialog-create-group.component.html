@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>New Task group</h1>
+
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Title *</mat-label>
+    <input matInput autocomplete="off" [(ngModel)]="payload.title">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <input matInput autocomplete="off" [(ngModel)]="payload.description">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions style="display: flex; justify-content: center">
+  <button mat-raised-button color="primary" (click)="close()">Create</button>
+</div>

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { CreateGroupPayload } from '../../models/payload/create-group.payload';
 import { GroupProxy } from '../../models/proxies/group.proxy';
 
 @Injectable({
@@ -13,6 +14,10 @@ export class GroupInteractor {
   ) { }
 
   public getAll(): Observable<GroupProxy[]> {
-    return this.httpClient.get<GroupProxy[]>(environment.apiEndpoints.groups.getAll);
+    return this.httpClient.get<GroupProxy[]>(environment.apiBaseUrl + environment.apiEndpoints.groups.base);
+  }
+
+  public create(payload: CreateGroupPayload): Observable<void> {
+    return this.httpClient.post<void>(environment.apiBaseUrl + environment.apiEndpoints.groups.base, payload);
   }
 }
