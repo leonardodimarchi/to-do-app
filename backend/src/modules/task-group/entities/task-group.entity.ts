@@ -1,7 +1,8 @@
-import { Column, Entity, ManyToOne, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../../common/base-entity';
 import { TaskEntity } from '../../tasks/entities/task.entity';
 import { UserEntity } from '../../users/entities/user.entity';
+import { TaskCount } from '../models/task-count.interface';
 import { TaskGroupProxy } from '../models/task-group.proxy';
 
 @Entity('task-group')
@@ -29,8 +30,17 @@ export class TaskGroupEntity extends BaseEntity {
 
   //#region Public Methods
 
-  public toProxy(): TaskGroupProxy {
-    return new TaskGroupProxy(this);
+  public toProxy(numberOfTasks?: TaskCount): TaskGroupProxy {
+    return new TaskGroupProxy(this, numberOfTasks);
+  }
+
+  public async getNumberOfTasks(): Promise<{ taskCount: number, taskCountCompleted: number }> {
+    const groupTaskWithTasks = await TaskGroupEntity.findById<TaskGroupEntity>(this.id, false, ['tasks']);
+
+    return {
+      taskCount: groupTaskWithTasks.tasks.length,
+      taskCountCompleted: groupTaskWithTasks.tasks.filter(task => task.isDone).length,
+    };
   }
 
   //#endregion

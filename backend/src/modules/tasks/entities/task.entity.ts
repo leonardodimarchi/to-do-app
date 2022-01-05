@@ -1,9 +1,8 @@
 //#region Imports
 
-import { BaseEntity } from '../../../common/base-entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
+import { BaseEntity } from '../../../common/base-entity';
 import { TaskGroupEntity } from '../../task-group/entities/task-group.entity';
-import { UserEntity } from '../../users/entities/user.entity';
 import { TaskProxy } from '../models/task.proxy';
 
 //#endregion

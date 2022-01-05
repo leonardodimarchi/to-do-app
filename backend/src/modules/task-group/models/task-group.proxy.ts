@@ -1,6 +1,7 @@
 //#region Imports
 
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { num } from 'envalid';
 import { BaseCrudProxy } from '../../../common/base-crud.proxy';
 import { GetManyDefaultResponseProxy } from '../../../common/get-many-default-response.proxy';
 import { TaskEntity } from '../../tasks/entities/task.entity';
@@ -8,6 +9,7 @@ import { TaskProxy } from '../../tasks/models/task.proxy';
 import { UserEntity } from '../../users/entities/user.entity';
 import { UserProxy } from '../../users/models/user.proxy';
 import { TaskGroupEntity } from '../entities/task-group.entity';
+import { TaskCount } from './task-count.interface';
 
 //#endregion
 
@@ -16,7 +18,7 @@ import { TaskGroupEntity } from '../entities/task-group.entity';
  */
 export class TaskGroupProxy extends BaseCrudProxy {
 
-  constructor(task: Partial<TaskGroupEntity> | TaskGroupEntity) {
+  constructor(task: Partial<TaskGroupEntity> | TaskGroupEntity, numberOfTasks?: TaskCount) {
     super(task);
 
     Object.assign(this, task);
@@ -26,6 +28,13 @@ export class TaskGroupProxy extends BaseCrudProxy {
 
     if (task.creator)
       this.creator = task.creator.toProxy();
+
+    if (numberOfTasks) {
+      const { taskCount, taskCountCompleted } = numberOfTasks;
+
+      this.taskCount = taskCount;
+      this.taskCountCompleted = taskCountCompleted;
+    }
   }
 
   @ApiProperty()
@@ -36,6 +45,12 @@ export class TaskGroupProxy extends BaseCrudProxy {
 
   @ApiPropertyOptional()
   description?: string;
+
+  @ApiProperty()
+  taskCount: number;
+
+  @ApiProperty()
+  taskCountCompleted: number;
 
   @ApiPropertyOptional({ type: () => UserEntity })
   creator?: UserProxy;

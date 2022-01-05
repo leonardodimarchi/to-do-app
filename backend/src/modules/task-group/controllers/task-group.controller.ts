@@ -2,7 +2,7 @@
 
 import { Body, ClassSerializerInterceptor, Controller, Param, Request, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Crud, CrudRequest, GetManyDefaultResponse, Override, ParsedRequest } from '@nestjsx/crud';
+import { Crud, CrudRequest, Override, ParsedRequest } from '@nestjsx/crud';
 import { BaseEntityCrudController } from '../../../common/base-entity-crud.controller';
 import { UsersPermissions } from '../../../models/enums/users-permissions';
 import { hasPermissions } from '../../auth/decorators/has-permissions.decorator';
@@ -53,10 +53,16 @@ export class TaskGroupController extends BaseEntityCrudController<TaskGroupEntit
   @ApiOperation({ summary: 'Get all task-group' })
   @ApiOkResponse({ type: GetManyDefaultResponseTaskGroupProxy })
   public async getMany(@Request() req: any, @ParsedRequest() crudRequest: CrudRequest): Promise<GetManyDefaultResponseTaskGroupProxy | TaskGroupProxy[]> {
-    return await this.service.listMany(crudRequest, req.user).then(response => {
-      const taskGroups = Array.isArray(response) ? response : response.data;
-      return taskGroups.map(taskGroup => taskGroup.toProxy());
+    const result = await this.service.listMany(crudRequest, req.user);
+
+    const taskGroups = Array.isArray(result) ? result : result.data;
+    const proxyGroups = taskGroups.map(async taskGroup => {
+      const taskNumbers = await taskGroup.getNumberOfTasks();
+
+      return taskGroup.toProxy(taskNumbers);
     });
+
+    return await Promise.all(proxyGroups);
   }
 
   @hasPermissions(UsersPermissions.ADMIN, UsersPermissions.USER)
