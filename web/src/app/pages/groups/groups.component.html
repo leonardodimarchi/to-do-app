@@ -10,7 +10,12 @@
 
       <ng-container *ngIf="taskGroups.length > 0">
         <div class="groups--list--item" *ngFor="let group of taskGroups; trackBy: trackGroupById">
-          <span>{{ group.title }}</span>
+          <div class="groups--list--item--inner" (click)="goToGroupPage(group.id)">
+            <h3>{{ group.title }}</h3>
+            <p>{{ group.description }}</p>
+            <span>{{ group.taskCount === 0 ? 'Empty group' : group.taskCountCompleted + '/'+ group.taskCount + ' Tasks'}}</span>
+          </div>
+          <mat-icon (click)="deleteGroup(group.id)">delete_forever</mat-icon>
         </div>
       </ng-container>
 

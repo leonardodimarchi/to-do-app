@@ -1,11 +1,20 @@
 main {
   padding-top: 4rem;
 
-  .groups {
+  .tasks {
     width: 40vw;
     height: 100%;
 
     margin: auto;
+
+    &--group {
+      margin-bottom: 2rem;
+      margin-left: 0.5rem;
+
+       p {
+         margin-top: 1rem;
+       }
+    }
 
     &--add {
       display: flex;

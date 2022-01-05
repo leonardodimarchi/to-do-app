@@ -5,6 +5,8 @@ export interface GroupProxy {
   id: number;
   creatorId: number;
   title: string;
+  taskCount: number;
+  taskCountCompleted: number;
   description?: string;
   creator?: UserProxy;
   tasks?: TaskProxy[];

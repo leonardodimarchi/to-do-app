@@ -4,12 +4,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule, Routes } from '@angular/router';
-import { DialogCreateGroupModule } from '../../components/dialog-create-group/dialog-create-group.module';
-import { GroupsComponent } from './groups.component';
+import { GroupDetailComponent } from './group-detail.component';
 
 const routes: Routes = [
-  { path: '', component: GroupsComponent },
-  { path: ':id', loadChildren: () => import ('./group-detail/group-detail.module').then(m => m.GroupDetailModule) },
+  { path: '', component: GroupDetailComponent },
 ];
 
 @NgModule({
@@ -19,13 +17,12 @@ const routes: Routes = [
     MatIconModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    DialogCreateGroupModule,
   ],
   declarations: [
-    GroupsComponent,
+    GroupDetailComponent,
   ],
   exports: [
-    GroupsComponent,
+    GroupDetailComponent,
   ],
 })
-export class GroupsModule {}
+export class GroupDetailModule {}

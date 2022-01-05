@@ -14,7 +14,13 @@ export class GroupInteractor {
   ) { }
 
   public getAll(): Observable<GroupProxy[]> {
-    return this.httpClient.get<GroupProxy[]>(environment.apiBaseUrl + environment.apiEndpoints.groups.base + '?join[0]=tasks&sort=createdAt,DESC');
+    return this.httpClient.get<GroupProxy[]>(environment.apiBaseUrl + environment.apiEndpoints.groups.base + '?sort=createdAt,DESC');
+  }
+
+  public getById(id: number): Observable<GroupProxy> {
+    const url = environment.apiBaseUrl + environment.apiEndpoints.groups.base + '/' + id;
+
+    return this.httpClient.get<GroupProxy>(url);
   }
 
   public create(payload: CreateGroupPayload): Observable<void> {

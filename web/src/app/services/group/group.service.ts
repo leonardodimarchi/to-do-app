@@ -20,6 +20,14 @@ export class GroupService {
       .toPromise();
   }
 
+  public async getById(id: number): Promise<GroupProxy> {
+    return await this.interactor.getById(id)
+      .pipe(catchError(error => {
+        throw new Error(error.error?.message || error.message);
+      }))
+      .toPromise();
+  }
+
   public async create(payload: CreateGroupPayload): Promise<void> {
     return await this.interactor.create(payload)
       .pipe(catchError(error => {

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DialogCreateGroupComponent } from '../../components/dialog-create-group/dialog-create-group.component';
 import { CreateGroupPayload } from '../../models/payload/create-group.payload';
@@ -12,9 +13,10 @@ import { GroupService } from '../../services/group/group.service';
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.scss'],
 })
-export class GroupsComponent implements OnInit, OnDestroy {
+export class GroupsComponent implements OnInit {
   constructor(
     private readonly groupService: GroupService,
+    private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly snackBar: MatSnackBar,
   ) {}
@@ -25,14 +27,16 @@ export class GroupsComponent implements OnInit, OnDestroy {
 
   public isCreatingGroup: boolean = false;
 
-  private createGroupDialogSubscription: Subscription;
-
   public async ngOnInit(): Promise<void> {
     await this.loadGroups();
   }
 
-  public ngOnDestroy(): void {
-    this.createGroupDialogSubscription.unsubscribe();
+  public async goToGroupPage(groupId: number): Promise<void> {
+    await this.router.navigateByUrl('/groups/' + groupId);
+  }
+
+  public deleteGroup(groupId: number): void {
+
   }
 
   public async loadGroups(): Promise<void> {
@@ -50,7 +54,7 @@ export class GroupsComponent implements OnInit, OnDestroy {
   public openCreateGroupDialog(): void {
     const dialogRef = this.dialog.open(DialogCreateGroupComponent);
 
-    dialogRef.afterClosed().subscribe(async (payload: CreateGroupPayload) => {
+    const subscription = dialogRef.afterClosed().subscribe(async (payload: CreateGroupPayload) => {
       if (!payload)
         return;
 
@@ -66,6 +70,7 @@ export class GroupsComponent implements OnInit, OnDestroy {
         await this.snackBar.open(error.message);
       } finally {
         this.isCreatingGroup = false;
+        subscription.unsubscribe();
       }
     });
   }
