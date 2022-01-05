@@ -14,7 +14,7 @@ export class GroupInteractor {
   ) { }
 
   public getAll(): Observable<GroupProxy[]> {
-    return this.httpClient.get<GroupProxy[]>(environment.apiBaseUrl + environment.apiEndpoints.groups.base);
+    return this.httpClient.get<GroupProxy[]>(environment.apiBaseUrl + environment.apiEndpoints.groups.base + '?join[0]=tasks&sort=createdAt,DESC');
   }
 
   public create(payload: CreateGroupPayload): Observable<void> {
