@@ -24,7 +24,7 @@ export class TaskGroupEntity extends BaseEntity {
   @ManyToOne(() => UserEntity)
   creator?: UserEntity;
 
-  @OneToMany(() => TaskEntity, entity => entity.groupId)
+  @OneToMany(() => TaskEntity, entity => entity.group)
   tasks?: TaskEntity[];
 
   //#region Public Methods

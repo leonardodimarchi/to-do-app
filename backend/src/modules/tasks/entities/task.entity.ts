@@ -1,7 +1,9 @@
 //#region Imports
 
 import { BaseEntity } from '../../../common/base-entity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
+import { TaskGroupEntity } from '../../task-group/entities/task-group.entity';
+import { UserEntity } from '../../users/entities/user.entity';
 import { TaskProxy } from '../models/task.proxy';
 
 //#endregion
@@ -25,6 +27,9 @@ export class TaskEntity extends BaseEntity {
 
   @Column({ nullable: false, default: false })
   isDone: boolean;
+
+  @ManyToOne(() => TaskGroupEntity, group => group.tasks)
+  group?: TaskGroupEntity;
 
   //#region Public Methods
 

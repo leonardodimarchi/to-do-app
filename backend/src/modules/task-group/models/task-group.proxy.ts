@@ -4,7 +4,9 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { BaseCrudProxy } from '../../../common/base-crud.proxy';
 import { GetManyDefaultResponseProxy } from '../../../common/get-many-default-response.proxy';
 import { TaskEntity } from '../../tasks/entities/task.entity';
+import { TaskProxy } from '../../tasks/models/task.proxy';
 import { UserEntity } from '../../users/entities/user.entity';
+import { UserProxy } from '../../users/models/user.proxy';
 import { TaskGroupEntity } from '../entities/task-group.entity';
 
 //#endregion
@@ -16,7 +18,14 @@ export class TaskGroupProxy extends BaseCrudProxy {
 
   constructor(task: Partial<TaskGroupEntity> | TaskGroupEntity) {
     super(task);
+
     Object.assign(this, task);
+
+    if (task.tasks)
+      this.tasks = task.tasks.map(t => t.toProxy());
+
+    if (task.creator)
+      this.creator = task.creator.toProxy();
   }
 
   @ApiProperty()
@@ -29,10 +38,10 @@ export class TaskGroupProxy extends BaseCrudProxy {
   description?: string;
 
   @ApiPropertyOptional({ type: () => UserEntity })
-  creator?: UserEntity;
+  creator?: UserProxy;
 
   @ApiPropertyOptional({ type: () => TaskEntity, isArray: true })
-  tasks?: TaskEntity[];
+  tasks?: TaskProxy[];
 }
 
 /**

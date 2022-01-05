@@ -35,5 +35,4 @@ lerna-debug.log*
 
 # DB AND ENV
 *.db
-src/migrations
 .env
