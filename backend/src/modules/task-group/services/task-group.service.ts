@@ -31,11 +31,11 @@ export class TaskGroupService extends BaseCrudService<TaskGroupEntity> {
     return await this.getMany(crudRequest);
   }
 
-  public async get(id: number, crudRequest?: CrudRequest): Promise<TaskGroupEntity> {
+  public async get(id: number, crudRequest: CrudRequest): Promise<TaskGroupEntity> {
     let userTaskEntity: TaskGroupEntity;
 
     if (crudRequest) {
-      crudRequest.parsed.search = { id };
+      crudRequest.parsed.search = { id, ...crudRequest.parsed.search };
       userTaskEntity = await super.getOne(crudRequest);
     } else {
       userTaskEntity = await TaskGroupEntity.findById<TaskGroupEntity>(id);

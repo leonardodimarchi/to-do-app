@@ -71,7 +71,7 @@ export class TaskGroupController extends BaseEntityCrudController<TaskGroupEntit
   @ApiOperation({ summary: 'Get a task-group by id' })
   @ApiOkResponse({ type: TaskGroupProxy })
   public async getOne(@Param('id') id: number, @ParsedRequest() crudRequest: CrudRequest): Promise<TaskGroupProxy> {
-    return await this.service.get(+id).then(response => response.toProxy());
+    return await this.service.get(+id, crudRequest).then(response => response.toProxy());
   }
 
   @hasPermissions(UsersPermissions.ADMIN, UsersPermissions.USER)
