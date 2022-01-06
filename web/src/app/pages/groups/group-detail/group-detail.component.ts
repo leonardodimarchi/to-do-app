@@ -56,6 +56,7 @@ export class GroupDetailComponent implements OnDestroy {
       this.isLoadingTasks = true;
 
       this.group = await this.groupService.getById(groupId);
+      this.tasks = this.group.tasks || [];
     } catch (error) {
       await this.snackBar.open(error.message);
     } finally {

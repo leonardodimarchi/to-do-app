@@ -8,12 +8,19 @@ main {
     margin: auto;
 
     &--group {
-      margin-bottom: 2rem;
-      margin-left: 0.5rem;
+      &--title {
+        display:flex;
 
-       p {
-         margin-top: 1rem;
-       }
+        mat-icon {
+          cursor: pointer;
+          margin-right: 1rem;
+          font-size: 2rem;
+        }
+      }
+
+      p {
+        margin: 1.5rem 0;
+      }
     }
 
     &--add {

@@ -20,7 +20,7 @@ export class GroupInteractor {
   public getById(id: number): Observable<GroupProxy> {
     const url = environment.apiBaseUrl + environment.apiEndpoints.groups.base + '/' + id;
 
-    return this.httpClient.get<GroupProxy>(url);
+    return this.httpClient.get<GroupProxy>(url + '?join=tasks');
   }
 
   public create(payload: CreateGroupPayload): Observable<void> {

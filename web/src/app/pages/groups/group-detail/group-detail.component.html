@@ -1,7 +1,11 @@
 <main>
   <div class="tasks">
     <div class="tasks--group" *ngIf="group">
-      <h1>{{ group.title }}</h1>
+      <div class="tasks--group--title">
+        <mat-icon routerLink="/groups">keyboard_backspace</mat-icon>
+        <h1>{{ group.title }}</h1>
+      </div>
+
       <p>{{ group.description }}</p>
     </div>
     <div class="tasks--add" (click)="openCreateTaskDialog()" [class.disabled]="isCreatingTask">

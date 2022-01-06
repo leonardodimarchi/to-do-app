@@ -16,7 +16,6 @@ import { GroupService } from '../../services/group/group.service';
 export class GroupsComponent implements OnInit {
   constructor(
     private readonly groupService: GroupService,
-    private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly snackBar: MatSnackBar,
   ) {}
@@ -29,10 +28,6 @@ export class GroupsComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     await this.loadGroups();
-  }
-
-  public async goToGroupPage(groupId: number): Promise<void> {
-    await this.router.navigateByUrl('/groups/' + groupId);
   }
 
   public deleteGroup(groupId: number): void {
