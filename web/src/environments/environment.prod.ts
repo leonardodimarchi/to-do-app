@@ -10,7 +10,7 @@ export const environment = {
     },
     user: '/users',
     groups: {
-      getAll: '/task-group',
+      base: '/task-group',
     },
   }
 };
