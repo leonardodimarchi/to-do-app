@@ -9,7 +9,8 @@
       <mat-progress-spinner *ngIf="isLoadingGroups" diameter="30" mode="indeterminate" color="primary"></mat-progress-spinner>
 
       <ng-container *ngIf="taskGroups.length > 0">
-        <div class="groups--list--item" *ngFor="let group of taskGroups; trackBy: trackGroupById">
+        <div class="groups--list--item" [class.groups--list--item__done]="group.taskCount > 0 && group.taskCountCompleted === group.taskCount"
+             *ngFor="let group of taskGroups; trackBy: trackGroupById">
           <div class="groups--list--item--inner" [routerLink]="'/groups/' + group.id">
             <h3>{{ group.title }}</h3>
             <p>{{ group.description }}</p>

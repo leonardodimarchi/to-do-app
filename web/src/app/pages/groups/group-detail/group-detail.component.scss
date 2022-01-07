@@ -78,10 +78,16 @@ main {
           }
         }
 
-        mat-icon {
+        &--options {
           position: absolute;
+          top: 0;
           right: -2rem;
-          bottom: -4px;
+
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          height: calc(100% + 3px);
         }
 
         &:before {

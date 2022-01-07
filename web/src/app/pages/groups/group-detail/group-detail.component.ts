@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { GroupProxy } from '../../../models/proxies/group.proxy';
 import { TaskProxy } from '../../../models/proxies/task.proxy';
 import { GroupService } from '../../../services/group/group.service';
+import { TaskService } from '../../../services/task/task.service';
 
 @Component({
   selector: 'app-task-group-detail',
@@ -18,6 +19,7 @@ export class GroupDetailComponent implements OnDestroy {
     private readonly snackBar: MatSnackBar,
     private readonly activeRoute: ActivatedRoute,
     private readonly groupService: GroupService,
+    private readonly tasksService: TaskService,
   ) {
     this.routeSubscription = this.activeRoute.params.subscribe(async param => {
       if (param.id) {
@@ -43,8 +45,13 @@ export class GroupDetailComponent implements OnDestroy {
     this.routeSubscription.unsubscribe();
   }
 
-  public toggleTaskDone(taskId: number): void {
-
+  public async toggleTaskDone(task: TaskProxy): Promise<void> {
+    try {
+      await this.tasksService.update(task.id, { isDone: !task.isDone });
+      task.isDone = !task.isDone;
+    } catch (error) {
+      await this.snackBar.open(error.message);
+    }
   }
 
   public deleteTask(taskId: number): void {

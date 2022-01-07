@@ -16,6 +16,9 @@ export const environment = {
     groups: {
       base: '/task-group',
     },
+    tasks: {
+      base: '/tasks'
+    }
   }
 };
 
