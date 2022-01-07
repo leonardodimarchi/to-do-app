@@ -1,9 +1,11 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CrudRequest, GetManyDefaultResponse } from '@nestjsx/crud';
-import { Repository } from 'typeorm';
+import { use } from 'passport';
+import { In, Repository } from 'typeorm';
 import { BaseCrudService } from '../../../common/base-crud.service';
 import { hasAdminPermission, isValid } from '../../../utils/functions';
+import { TaskGroupEntity } from '../../task-group/entities/task-group.entity';
 import { UserEntity } from '../../users/entities/user.entity';
 import { TaskEntity } from '../entities/task.entity';
 import { CreateTaskPayload } from '../models/create-task.payload';
@@ -26,7 +28,21 @@ export class TaskService extends BaseCrudService<TaskEntity> {
     if (hasAdminPermission(userThatRequested))
       return await this.getMany(crudRequest);
 
-    throw new ForbiddenException('Você não possui permissão para listar todas as tarefas');
+    const userGroups = await TaskGroupEntity.find({
+      where: {
+        creatorId: userThatRequested.id,
+      }
+    });
+
+    if (!userGroups)
+      throw new NotFoundException('Não foi encontrado nenhum grupo deste usuario');
+
+    crudRequest.parsed.filter = [
+      { field: 'groupId', operator: '$in', value: In(userGroups.map(g => g.id)) },
+      ...crudRequest.parsed.filter,
+    ];
+
+    return await this.getMany(crudRequest)
   }
 
   /**
