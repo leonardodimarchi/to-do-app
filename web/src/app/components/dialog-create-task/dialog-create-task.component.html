@@ -1,0 +1,15 @@
+<div class="header">
+  <h1 mat-dialog-title>Create Task</h1>
+  <mat-icon mat-dialog-close="">close</mat-icon>
+</div>
+
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Content</mat-label>
+    <input matInput autocomplete="off" [(ngModel)]="payload.content" (keydown.enter)="createButton._elementRef.nativeElement.click()">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions style="display: flex; justify-content: center">
+  <button #createButton mat-raised-button color="primary" (click)="close()">Create</button>
+</div>

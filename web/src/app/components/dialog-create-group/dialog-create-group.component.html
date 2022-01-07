@@ -6,15 +6,16 @@
 <div mat-dialog-content>
   <mat-form-field appearance="fill">
     <mat-label>Title *</mat-label>
-    <input matInput autocomplete="off" [(ngModel)]="payload.title">
+    <input matInput autocomplete="off" [(ngModel)]="payload.title" (keydown.enter)="descriptionInput.focus()">
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Description</mat-label>
-    <input matInput autocomplete="off" [(ngModel)]="payload.description">
+    <input #descriptionInput matInput autocomplete="off" [(ngModel)]="payload.description"
+           (keydown.enter)="createButton._elementRef.nativeElement.click()">
   </mat-form-field>
 </div>
 
 <div mat-dialog-actions style="display: flex; justify-content: center">
-  <button mat-raised-button color="primary" (click)="close()">Create</button>
+  <button #createButton mat-raised-button color="primary" (click)="close()">Create</button>
 </div>

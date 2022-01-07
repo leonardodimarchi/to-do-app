@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { DialogCreateTaskComponent } from '../../../components/dialog-create-task/dialog-create-task.component';
+import { CreateTaskPayload } from '../../../models/payload/create-task.payload';
 import { GroupProxy } from '../../../models/proxies/group.proxy';
 import { TaskProxy } from '../../../models/proxies/task.proxy';
 import { GroupService } from '../../../services/group/group.service';
@@ -24,12 +26,10 @@ export class GroupDetailComponent implements OnDestroy {
     this.routeSubscription = this.activeRoute.params.subscribe(async param => {
       if (param.id) {
         await this.loadGroup(+param.id);
-        await this.loadTasks(+param.id);
+        await this.loadTasks();
       }
     });
   }
-
-  public groupId: number = 0;
 
   public tasks: TaskProxy[] = [];
 
@@ -63,7 +63,6 @@ export class GroupDetailComponent implements OnDestroy {
       this.isLoadingTasks = true;
 
       this.group = await this.groupService.getById(groupId);
-      this.tasks = this.group.tasks || [];
     } catch (error) {
       await this.snackBar.open(error.message);
     } finally {
@@ -71,10 +70,11 @@ export class GroupDetailComponent implements OnDestroy {
     }
   }
 
-  public async loadTasks(groupId: number): Promise<void> {
+  public async loadTasks(): Promise<void> {
     try {
       this.isLoadingTasks = true;
 
+      this.tasks = await this.tasksService.getByGroupId(this.group.id);
     } catch (error) {
       await this.snackBar.open(error.message);
     } finally {
@@ -83,7 +83,27 @@ export class GroupDetailComponent implements OnDestroy {
   }
 
   public openCreateTaskDialog(): void {
+    const dialogRef = this.dialog.open(DialogCreateTaskComponent);
 
+    const subscription = dialogRef.afterClosed().subscribe(async (payload: CreateTaskPayload) => {
+      if (!payload)
+        return;
+
+      if (!payload.content)
+        return this.snackBar.open('Please, provide a content to create the task');
+
+      try {
+        this.isCreatingTask = true;
+
+        await this.tasksService.create({ ...payload, groupId: this.group.id });
+        await this.loadTasks();
+      } catch (error) {
+        await this.snackBar.open(error.message);
+      } finally {
+        this.isCreatingTask = false;
+        subscription.unsubscribe();
+      }
+    });
   }
 
   public trackTaskById(index: number, item: TaskProxy): number {
