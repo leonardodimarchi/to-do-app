@@ -56,7 +56,7 @@ export class TaskService extends BaseCrudService<TaskEntity> {
     const taskEntity = this.getEntityFromPayload(payload);
 
     if (!taskEntity.groupId)
-      throw new BadRequestException(`Não foi enviada um grupo para a tarefa}`);
+      throw new BadRequestException(`Não foi enviado um grupo para a tarefa`);
 
     if (!taskEntity.content)
       throw new BadRequestException(`Não foi enviado um conteudo para a tarefa`);
