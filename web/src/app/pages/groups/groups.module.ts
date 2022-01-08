@@ -5,6 +5,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterModule, Routes } from '@angular/router';
 import { DialogCreateGroupModule } from '../../components/dialog-create-group/dialog-create-group.module';
+import { GroupModule } from '../../components/group/group.module';
 import { GroupsComponent } from './groups.component';
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     MatSnackBarModule,
     DialogCreateGroupModule,
+    GroupModule,
   ],
   declarations: [
     GroupsComponent,

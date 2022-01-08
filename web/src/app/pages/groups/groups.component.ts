@@ -30,10 +30,6 @@ export class GroupsComponent implements OnInit {
     await this.loadGroups();
   }
 
-  public deleteGroup(groupId: number): void {
-
-  }
-
   public async loadGroups(): Promise<void> {
     try {
       this.isLoadingGroups = true;

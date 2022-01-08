@@ -1,0 +1,8 @@
+<div class="group" [class.group__done]="group.taskCount > 0 && group.taskCountCompleted === group.taskCount">
+  <div class="group--inner" [routerLink]="'/groups/' + group.id">
+    <h3>{{ group.title }}</h3>
+    <p>{{ group.description }}</p>
+    <span>{{ group.taskCount === 0 ? 'Empty group' : group.taskCountCompleted + '/'+ group.taskCount + ' Tasks'}}</span>
+  </div>
+  <mat-icon (click)="deleteGroup(group.id)">delete_forever</mat-icon>
+</div>
