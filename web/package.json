@@ -8,9 +8,7 @@
     "build": "ng build --aot --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "deploy:web": "git subtree push --prefix web heroku-web master",
-    "deploy:api": "git subtree push --prefix backend heroku-backend master"
+    "e2e": "ng e2e"
   },
   "engines": {
     "node": "12.x",
