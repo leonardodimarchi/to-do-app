@@ -1,0 +1,9 @@
+<div class="task" [class.task__done]="task.isDone">
+  <div class="task--inner" (click)="toggleTaskDone(task)">
+    <p>{{ task.content }}</p>
+  </div>
+  <div class="task--options">
+    <mat-icon (click)="toggleTaskDone(task)">{{task.isDone ? 'done' : 'close'}}</mat-icon>
+    <mat-icon (click)="deleteTask(task.id)">delete_forever</mat-icon>
+  </div>
+</div>

@@ -45,19 +45,6 @@ export class GroupDetailComponent implements OnDestroy {
     this.routeSubscription.unsubscribe();
   }
 
-  public async toggleTaskDone(task: TaskProxy): Promise<void> {
-    try {
-      await this.tasksService.update(task.id, { isDone: !task.isDone });
-      task.isDone = !task.isDone;
-    } catch (error) {
-      await this.snackBar.open(error.message);
-    }
-  }
-
-  public deleteTask(taskId: number): void {
-
-  }
-
   public async loadGroup(groupId: number): Promise<void> {
     try {
       this.isLoadingTasks = true;

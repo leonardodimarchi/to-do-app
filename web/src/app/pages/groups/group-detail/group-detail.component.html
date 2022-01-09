@@ -17,16 +17,7 @@
       <mat-progress-spinner *ngIf="isLoadingTasks" diameter="30" mode="indeterminate" color="primary"></mat-progress-spinner>
 
       <ng-container *ngIf="tasks.length > 0">
-        <div class="tasks--list--item" [class.tasks--list--item__done]="task.isDone"
-             *ngFor="let task of tasks; trackBy: trackTaskById">
-          <div class="tasks--list--item--inner" (click)="toggleTaskDone(task)">
-            <p>{{ task.content }}</p>
-          </div>
-          <div class="tasks--list--item--options">
-            <mat-icon (click)="toggleTaskDone(task)">{{task.isDone ? 'done' : 'close'}}</mat-icon>
-            <mat-icon (click)="deleteTask(group.id)">delete_forever</mat-icon>
-          </div>
-        </div>
+        <app-task *ngFor="let task of tasks; trackBy: trackTaskById" [task]="task"></app-task>
       </ng-container>
 
       <ng-container *ngIf="tasks.length === 0 && !isLoadingTasks">
