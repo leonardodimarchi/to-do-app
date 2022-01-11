@@ -23,8 +23,14 @@ export class TaskInteractor {
     return this.httpClient.put<void>(url, payload);
   }
 
+  public delete(id: number): Observable<void> {
+    const url = environment.apiBaseUrl + environment.apiEndpoints.tasks.base + '/' + id;
+    return this.httpClient.delete<void>(url);
+  }
+
   public getByGroupId(groupId: number): Observable<TaskProxy[]> {
     const searchParams = encodeURIComponent(JSON.stringify({
+      isActive: true,
       groupId
     }));
 

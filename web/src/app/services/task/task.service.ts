@@ -29,6 +29,14 @@ export class TaskService {
       .toPromise();
   }
 
+  public async delete(id: number): Promise<void> {
+    return await this.interactor.delete(id)
+      .pipe(catchError(error => {
+        throw new Error(error.error?.message || error.message);
+      }))
+      .toPromise();
+  }
+
   public async getByGroupId(groupId: number): Promise<TaskProxy[]> {
     return await this.interactor.getByGroupId(groupId)
       .pipe(catchError(error => {

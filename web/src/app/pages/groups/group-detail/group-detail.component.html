@@ -17,7 +17,7 @@
       <mat-progress-spinner *ngIf="isLoadingTasks" diameter="30" mode="indeterminate" color="primary"></mat-progress-spinner>
 
       <ng-container *ngIf="tasks.length > 0">
-        <app-task *ngFor="let task of tasks; trackBy: trackTaskById" [task]="task"></app-task>
+        <app-task *ngFor="let task of tasks; trackBy: trackTaskById" [task]="task" (deletedTaskOutput)="loadTasks()"></app-task>
       </ng-container>
 
       <ng-container *ngIf="tasks.length === 0 && !isLoadingTasks">

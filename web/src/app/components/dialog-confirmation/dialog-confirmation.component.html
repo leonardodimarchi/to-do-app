@@ -1,0 +1,9 @@
+<div class="header">
+  <h1 mat-dialog-title>{{ data.title || 'Confirm?' }}</h1>
+  <mat-icon mat-dialog-close="">close</mat-icon>
+</div>
+
+<div mat-dialog-actions style="display: flex; justify-content: flex-end">
+  <button mat-button color="primary" mat-dialog-close="">Cancel</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true">{{ data.buttonText || 'Confirm' }}</button>
+</div>
