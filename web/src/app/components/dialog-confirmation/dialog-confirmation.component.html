@@ -1,5 +1,6 @@
 <div class="header">
   <h1 mat-dialog-title>{{ data.title || 'Confirm?' }}</h1>
+  <p *ngIf="data.text">{{ data.text }}</p>
   <mat-icon mat-dialog-close="">close</mat-icon>
 </div>
 

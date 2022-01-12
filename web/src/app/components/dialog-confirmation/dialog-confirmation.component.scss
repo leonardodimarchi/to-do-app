@@ -3,9 +3,10 @@ mat-form-field {
 }
 
 .header {
+  position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
 
   margin-bottom: 1.5rem;
 
@@ -15,7 +16,14 @@ mat-form-field {
     };
   }
 
+  p {
+    margin-top: 2rem;
+  }
+
   mat-icon {
+    position: absolute;
+    top: 0.3rem;
+    right: 0;
     cursor: pointer;
   }
 }

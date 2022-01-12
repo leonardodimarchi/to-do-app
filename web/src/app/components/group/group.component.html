@@ -4,5 +4,5 @@
     <p>{{ group.description }}</p>
     <span>{{ group.taskCount === 0 ? 'Empty group' : group.taskCountCompleted + '/'+ group.taskCount + ' Tasks'}}</span>
   </div>
-  <mat-icon (click)="deleteGroup(group.id)">delete_forever</mat-icon>
+  <mat-icon (click)="deleteGroup()">delete_forever</mat-icon>
 </div>

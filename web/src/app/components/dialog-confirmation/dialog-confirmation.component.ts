@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
   title: string;
+  text?: string;
   buttonText: string;
 }
 

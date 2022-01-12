@@ -56,7 +56,7 @@ export class TaskComponent {
         await this.tasksService.delete(this.task.id);
         this.deletedTaskOutput.emit();
       } catch (error) {
-        await this.snackBar.open(error.message);
+        await this.snackBar.open(error.message, '', { duration: 3000 });
       } finally {
         this.isDeletingTask = false;
         subscription.unsubscribe();

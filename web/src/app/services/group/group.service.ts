@@ -28,6 +28,14 @@ export class GroupService {
       .toPromise();
   }
 
+  public async delete(id: number): Promise<void> {
+    return await this.interactor.delete(id)
+      .pipe(catchError(error => {
+        throw new Error(error.error?.message || error.message);
+      }))
+      .toPromise();
+  }
+
   public async create(payload: CreateGroupPayload): Promise<void> {
     return await this.interactor.create(payload)
       .pipe(catchError(error => {

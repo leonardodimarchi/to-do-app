@@ -23,6 +23,11 @@ export class GroupInteractor {
     return this.httpClient.get<GroupProxy>(url + '?join=tasks');
   }
 
+  public delete(id: number): Observable<void> {
+    const url = environment.apiBaseUrl + environment.apiEndpoints.groups.base + '/' + id;
+    return this.httpClient.delete<void>(url);
+  }
+
   public create(payload: CreateGroupPayload): Observable<void> {
     return this.httpClient.post<void>(environment.apiBaseUrl + environment.apiEndpoints.groups.base, payload);
   }
