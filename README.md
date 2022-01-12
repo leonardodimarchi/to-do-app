@@ -30,4 +30,3 @@ git push heroku-backend `git subtree split --prefix backend master`:master --for
 
 📖Things yet to do
 - [ ] Frontend - Improve UX
-- [ ] Backend - Set nickname as unique
