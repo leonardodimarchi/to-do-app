@@ -44,7 +44,7 @@ export class TaskController extends BaseEntityCrudController<TaskEntity, TaskSer
   @Override()
   @ApiOperation({ summary: 'Get all tasks' })
   @ApiOkResponse({ type: GetManyDefaultResponseTaskProxy })
-  public async getMany(@Request() req: any,@ParsedRequest() crudRequest: CrudRequest): Promise<GetManyDefaultResponseTaskProxy | TaskProxy[]> {
+  public async getMany(@Request() req: any, @ParsedRequest() crudRequest: CrudRequest): Promise<GetManyDefaultResponseTaskProxy | TaskProxy[]> {
     return await this.service.listMany(crudRequest, req.user);
   }
 
@@ -79,7 +79,7 @@ export class TaskController extends BaseEntityCrudController<TaskEntity, TaskSer
   @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a task' })
-  public async deleteOne(@Param('id') id: string): Promise<TaskProxy> {
-    return await this.service.delete(+id).then(response => response.toProxy());
+  public async deleteOne(@Param('id') id: string, @Request() req: any): Promise<TaskProxy> {
+    return await this.service.delete(+id, req.user).then(response => response.toProxy());
   }
 }

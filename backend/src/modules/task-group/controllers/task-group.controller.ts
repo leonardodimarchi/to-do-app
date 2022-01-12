@@ -1,6 +1,6 @@
 //#region Imports
 
-import { Body, ClassSerializerInterceptor, Controller, Param, Request, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Delete, Param, Request, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudRequest, Override, ParsedRequest } from '@nestjsx/crud';
 import { BaseEntityCrudController } from '../../../common/base-entity-crud.controller';
@@ -33,7 +33,7 @@ import { TaskGroupService } from '../services/task-group.service';
     exclude: [
       'updateOneBase',
       'createManyBase',
-      'deleteOneBase',
+      'deleteOneBase'
     ],
   },
 })
@@ -90,5 +90,13 @@ export class TaskGroupController extends BaseEntityCrudController<TaskGroupEntit
   @ApiOkResponse({ type: TaskProxy })
   public async replaceOne(@Request() req: any, @Param('id') id: string, @Body() payload: CreateTaskGroupPayload): Promise<TaskGroupProxy> {
     return await this.service.update(req.user, +id, payload).then(response => response.toProxy());
+  }
+
+  @hasPermissions(UsersPermissions.USER, UsersPermissions.ADMIN)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete a task' })
+  public async deleteOne(@Param('id') id: string,  @Request() req: any): Promise<TaskGroupProxy> {
+    return await this.service.delete(+id, req.user).then(response => response.toProxy());
   }
 }

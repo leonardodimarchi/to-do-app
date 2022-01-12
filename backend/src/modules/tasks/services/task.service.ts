@@ -104,10 +104,12 @@ export class TaskService extends BaseCrudService<TaskEntity> {
   /**
    * Deleta uma entidade de task a partir de sua identificação
    */
-  public async delete(id: number): Promise<TaskEntity> {
+  public async delete(id: number, userThatRequested: UserEntity): Promise<TaskEntity> {
     const taskEntity = await TaskEntity.findById<TaskEntity>(id, false);
 
-    if (!taskEntity)
+    const taskGroup = await TaskGroupEntity.findById<TaskGroupEntity>(taskEntity.groupId);
+
+    if (!taskEntity || taskGroup.creatorId !== userThatRequested.id)
       throw new NotFoundException(`A entidade de Task procurada pela identificação ${ id } não foi encontrada`);
 
     taskEntity.isActive = false;

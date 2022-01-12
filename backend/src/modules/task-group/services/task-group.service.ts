@@ -6,6 +6,7 @@ import { CrudRequest, GetManyDefaultResponse } from '@nestjsx/crud';
 import { Repository } from 'typeorm';
 import { BaseCrudService } from '../../../common/base-crud.service';
 import { isValid } from '../../../utils/functions';
+import { TaskEntity } from '../../tasks/entities/task.entity';
 import { UserEntity } from '../../users/entities/user.entity';
 import { TaskGroupEntity } from '../entities/task-group.entity';
 import { CreateTaskGroupPayload } from '../models/create-task-group.payload';
@@ -26,7 +27,12 @@ export class TaskGroupService extends BaseCrudService<TaskGroupEntity> {
     crudRequest.parsed.filter = [
       { field: 'creatorId', operator: '$eq', value: requestUser.id },
       ...crudRequest.parsed.filter,
-    ]
+    ];
+
+    crudRequest.parsed.search.$and = [
+      { isActive: true },
+      ...crudRequest.parsed.search.$and,
+    ];
 
     return await this.getMany(crudRequest);
   }
@@ -71,13 +77,24 @@ export class TaskGroupService extends BaseCrudService<TaskGroupEntity> {
     return await updatedEntity.save();
   }
 
-  public async delete(id: number): Promise<TaskGroupEntity> {
+  public async delete(id: number, userThatRequested: UserEntity): Promise<TaskGroupEntity> {
     const entity = await TaskGroupEntity.findById<TaskGroupEntity>(id);
 
-    if (!entity)
+    if (!entity || entity.creatorId !== userThatRequested.id)
       throw new NotFoundException(`A entidade procurada pela identificação ${ id } não foi encontrada`);
 
     entity.isActive = false;
+
+    const tasks = await TaskEntity.find({
+      where: {
+        groupId: entity.id,
+      }
+    });
+
+    for (const task of tasks) {
+      task.isActive = false
+      await task.save();
+    }
 
     return await entity.save();
   }

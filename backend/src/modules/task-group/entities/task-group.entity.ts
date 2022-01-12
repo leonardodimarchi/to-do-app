@@ -35,7 +35,7 @@ export class TaskGroupEntity extends BaseEntity {
   }
 
   public async getNumberOfTasks(): Promise<{ taskCount: number, taskCountCompleted: number }> {
-    const groupTaskWithTasks = await TaskGroupEntity.findById<TaskGroupEntity>(this.id, true, ['tasks']);
+    const groupTaskWithTasks = await TaskGroupEntity.findById<TaskGroupEntity>(this.id, false, ['tasks']);
 
     const tasks = groupTaskWithTasks.tasks.filter(task => task.isActive)
 
