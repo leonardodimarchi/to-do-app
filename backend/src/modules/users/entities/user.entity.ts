@@ -12,7 +12,7 @@ export class UserEntity extends BaseEntity {
     Object.assign(this, partial);
   }
 
-  @Column({ nullable: false, length: 64 })
+  @Column({ nullable: false, unique: true, length: 64 })
   nickname: string;
 
   @Column({ nullable: false, length: 256 })
