@@ -29,6 +29,10 @@ export class UserService {
     await this.router.navigateByUrl('/login');
   }
 
+  public hasTokenOnStorage(): boolean {
+    return !!localStorage.getItem(environment.keys.userToken);
+  }
+
   public async loadCurrentUserInformation(): Promise<void> {
     const userInformation = await this.interactor.loadCurrentUserInformation()
       .pipe(catchError(error => {

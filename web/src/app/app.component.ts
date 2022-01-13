@@ -13,8 +13,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly userService: UserService,
   ) {
     this.currentUserSubscription = this.userService.getCurrentUser$().subscribe(user => {
-      if (user)
-        this.currentUser = user;
+      this.currentUser = user;
     });
   }
 
@@ -23,7 +22,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public currentUser: UserProxy;
 
   public async ngOnInit(): Promise<void> {
-    await this.userService.loadCurrentUserInformation();
+    if (this.userService.hasTokenOnStorage())
+      await this.userService.loadCurrentUserInformation();
   }
 
   public ngOnDestroy(): void {
