@@ -8,7 +8,10 @@ export const environment = {
     auth: {
       local: '/auth/local'
     },
-    user: '/users',
+    user: {
+      base: '/users',
+      getMe: '/users/me',
+    },
     groups: {
       base: '/task-group',
     },
