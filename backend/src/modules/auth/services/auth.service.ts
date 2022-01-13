@@ -13,8 +13,6 @@ export class AuthService {
     ) { }
 
     public async login(user: Partial<UserEntity>): Promise<{ access_token: string }> {
-        const { id, permissions, createdAt, updatedAt, isActive } = user;
-
         return {
             access_token: this.jwtService.sign(user),
         }

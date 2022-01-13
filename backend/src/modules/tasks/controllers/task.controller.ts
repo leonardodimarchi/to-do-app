@@ -4,10 +4,12 @@ import { Body, ClassSerializerInterceptor, Controller, Delete, Param, Request, U
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudRequest, Override, ParsedRequest } from '@nestjsx/crud';
 import { BaseEntityCrudController } from '../../../common/base-entity-crud.controller';
+import { User } from '../../../decorators/user.decorator';
 import { UsersPermissions } from '../../../models/enums/users-permissions';
 import { hasPermissions } from '../../auth/decorators/has-permissions.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { PermissionsGuard } from '../../auth/guards/permissions.guard';
+import { UserEntity } from '../../users/entities/user.entity';
 import { TaskEntity } from '../entities/task.entity';
 import { CreateTaskPayload } from '../models/create-task.payload';
 import { GetManyDefaultResponseTaskProxy, TaskProxy } from '../models/task.proxy';
@@ -44,8 +46,8 @@ export class TaskController extends BaseEntityCrudController<TaskEntity, TaskSer
   @Override()
   @ApiOperation({ summary: 'Get all tasks' })
   @ApiOkResponse({ type: GetManyDefaultResponseTaskProxy })
-  public async getMany(@Request() req: any, @ParsedRequest() crudRequest: CrudRequest): Promise<GetManyDefaultResponseTaskProxy | TaskProxy[]> {
-    return await this.service.listMany(crudRequest, req.user);
+  public async getMany(@User() user: UserEntity, @ParsedRequest() crudRequest: CrudRequest): Promise<GetManyDefaultResponseTaskProxy | TaskProxy[]> {
+    return await this.service.listMany(crudRequest, user);
   }
 
   @hasPermissions(UsersPermissions.ADMIN)
@@ -79,7 +81,7 @@ export class TaskController extends BaseEntityCrudController<TaskEntity, TaskSer
   @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a task' })
-  public async deleteOne(@Param('id') id: string, @Request() req: any): Promise<TaskProxy> {
-    return await this.service.delete(+id, req.user).then(response => response.toProxy());
+  public async deleteOne(@Param('id') id: string, @User() user: UserEntity): Promise<TaskProxy> {
+    return await this.service.delete(+id, user).then(response => response.toProxy());
   }
 }

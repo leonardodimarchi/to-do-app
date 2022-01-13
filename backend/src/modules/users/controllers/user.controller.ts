@@ -1,9 +1,10 @@
 //#region Imports
 
-import { Body, ClassSerializerInterceptor, Controller, Param, Request, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, Param, Request, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudRequest, Override, ParsedRequest } from '@nestjsx/crud';
 import { BaseEntityCrudController } from '../../../common/base-entity-crud.controller';
+import { User } from '../../../decorators/user.decorator';
 import { UsersPermissions } from '../../../models/enums/users-permissions';
 import { hasPermissions } from '../../auth/decorators/has-permissions.decorator';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
@@ -45,13 +46,22 @@ export class UserController extends BaseEntityCrudController<UserEntity, UserSer
     super(service);
   }
 
+  @hasPermissions(UsersPermissions.ADMIN, UsersPermissions.USER)
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @ApiOperation({ summary: 'Get logged user info.' })
+  @Get('me')
+  @ApiOkResponse({ description: 'Getting logged user information.', type: UserProxy })
+  public async getMe(@User() user: UserEntity): Promise<UserProxy> {
+    return user.toProxy();
+  }
+
   @hasPermissions(UsersPermissions.ADMIN)
   @UseGuards(JwtAuthGuard, PermissionsGuard)
   @Override()
   @ApiOperation({ summary: 'Get all users' })
   @ApiOkResponse({ type: GetManyDefaultResponseUserProxy })
-  public async getMany(@Request() req: any, @ParsedRequest() crudRequest: CrudRequest): Promise<GetManyDefaultResponseUserProxy | UserProxy[]> {
-    return await this.service.listMany(req.user, crudRequest);
+  public async getMany(@User() user: UserEntity, @ParsedRequest() crudRequest: CrudRequest): Promise<GetManyDefaultResponseUserProxy | UserProxy[]> {
+    return await this.service.listMany(user, crudRequest);
   }
 
   @hasPermissions(UsersPermissions.ADMIN)

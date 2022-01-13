@@ -12,8 +12,12 @@ import { UserEntity } from '../entities/user.entity';
  */
 export class UserProxy extends BaseCrudProxy {
 
-  constructor(task: Partial<UserEntity> | UserEntity) {
-    super(task);
+  constructor(user: Partial<UserEntity> | UserEntity) {
+    super(user);
+
+    this.nickname = user.nickname;
+    this.firstName = user.firstName;
+    this.permissions = user.permissions;
   }
 
   /**
@@ -21,12 +25,6 @@ export class UserProxy extends BaseCrudProxy {
    */
   @ApiProperty()
   nickname: string;
-
-  /**
-   * Senha do usuario
-   */
-  @ApiProperty()
-  password: string;
 
   /**
    * Primeiro nome do usuario
