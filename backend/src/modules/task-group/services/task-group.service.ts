@@ -24,13 +24,9 @@ export class TaskGroupService extends BaseCrudService<TaskGroupEntity> {
   }
 
   public async listMany(crudRequest: CrudRequest, requestUser: UserEntity): Promise<GetManyDefaultResponse<TaskGroupEntity> | TaskGroupEntity[]> {
-    crudRequest.parsed.filter = [
-      { field: 'creatorId', operator: '$eq', value: requestUser.id },
-      ...crudRequest.parsed.filter,
-    ];
-
     crudRequest.parsed.search.$and = [
       { isActive: true },
+      { creatorId: requestUser.id },
       ...crudRequest.parsed.search.$and,
     ];
 
