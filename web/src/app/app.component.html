@@ -1,3 +1,6 @@
 <div class="app mat-app-background">
+  <div class="app--header" *ngIf="currentUser">
+    <app-user-information [user]="currentUser"></app-user-information>
+  </div>
   <router-outlet></router-outlet>
 </div>

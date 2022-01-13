@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { UserInformationModule } from './components/user-information/user-information.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
@@ -18,6 +19,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    UserInformationModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

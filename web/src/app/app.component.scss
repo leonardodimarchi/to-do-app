@@ -1,4 +1,10 @@
 .app {
   height: 100%;
   width: 100%;
+
+  &--header {
+    position: absolute;
+    top: 4rem;
+    left: 4rem;
+  }
 }
