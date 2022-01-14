@@ -1,9 +1,16 @@
-<div class="task" [class.task__done]="task.isDone">
-  <div class="task--inner" (click)="toggleTaskDone(task)">
+<div class="task">
+  <div class="task--inner" (click)="toggleTaskDone()">
     <p>{{ task.content }}</p>
   </div>
   <div class="task--options">
-    <mat-icon (click)="toggleTaskDone(task)">{{task.isDone ? 'done' : 'close'}}</mat-icon>
+    <mat-icon (click)="toggleTaskDone()">{{task.isDone ? 'done' : 'close'}}</mat-icon>
     <mat-icon (click)="deleteTask()">delete_forever</mat-icon>
+  </div>
+
+  <div class="task--done">
+    <div class="task--done--bar"
+         [style.background]="isDeletingTask ? 'var(--color-red)' : 'var(--color-green)'"
+         [style.width.%]="task.isDone ? 100 : 0">
+    </div>
   </div>
 </div>

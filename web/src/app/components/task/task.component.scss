@@ -34,20 +34,20 @@
 
     height: calc(100% + 3px);
   }
-
-  &:before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    height: 4px;
-    width: 100%;
-    border-radius: 12px;
-    background: var(--color-gray);
-  }
 }
 
-.task__done {
-  &:before {
+.task--done{
+  width: 100%;
+  height: 4px;
+
+  overflow: hidden;
+
+  border-radius: 12px;
+  background: var(--color-gray);
+
+  &--bar {
+    transition: width 1.5s cubic-bezier(.46,.2,.13,1.09);
+    height: 100%;
     background: var(--color-green);
   }
 }

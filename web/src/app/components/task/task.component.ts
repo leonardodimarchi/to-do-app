@@ -26,12 +26,23 @@ export class TaskComponent {
 
   public isDeletingTask: boolean = false;
 
-  public async toggleTaskDone(task: TaskProxy): Promise<void> {
+  public isUpdatingTask: boolean = false;
+
+  public async toggleTaskDone(): Promise<void> {
+    if (this.isUpdatingTask)
+      return;
+
     try {
-      await this.tasksService.update(task.id, { isDone: !task.isDone });
-      task.isDone = !task.isDone;
+      this.isUpdatingTask = true;
+
+      this.task.isDone = !this.task.isDone;
+
+      await this.tasksService.update(this.task.id, { isDone: this.task.isDone });
     } catch (error) {
+      this.task.isDone = !this.task.isDone;
       await this.snackBar.open(error.message);
+    } finally {
+      this.isUpdatingTask = false;
     }
   }
 
