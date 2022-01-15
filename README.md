@@ -27,6 +27,3 @@ git subtree push --prefix backend heroku-backend master
 or
 git push heroku-backend `git subtree split --prefix backend master`:master --force
 ```
-
-📖Things yet to do
-- [ ] Frontend - Improve UX
