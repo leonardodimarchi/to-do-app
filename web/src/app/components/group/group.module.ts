@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
 import { GroupComponent } from './group.component';
 
@@ -11,6 +12,7 @@ import { GroupComponent } from './group.component';
     CommonModule,
     MatIconModule,
     RouterModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [
     GroupComponent,
